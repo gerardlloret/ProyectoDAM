@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FreeAgent</string>
+    <string name="btnCreate">Crear</string>
+    <string name="btn_go_back_login">Torna al login</string>
+    <string name="btn_register">Registrat aqui</string>
+    <string name="btn_send">ENVIA</string>
+    <string name="confirmPassword">Confirma la contrasenya</string>
+    <string name="email">Email</string>
+    <string name="forget_pass">Has olvidat la contrasenya?</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="link_go_login">Torna al login</string>
+    <string name="log_in">LOG IN</string>
+    <string name="login">Login</string>
+    <string name="msg_check_email">Comprova el teu correu per veure la nova contrasenya!</string>
+    <string name="msg_recover_pass">Introdueix el teu correu i t\'enviarem una nova contrasenya</string>
+    <string name="msg_remember_pass">Has recuperat la contrasenya?</string>
+    <string name="no_account">No tens ningun compte?</string>
+    <string name="password">Contrasenya</string>
+    <string name="playerUser">Compte Jugador</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="teamUser">Compte Equip</string>
+    <string name="title_activity_pagina_principal">PaginaPrincipalActivity</string>
+    <string name="userName">Nom d\'usuari</string>
+</resources>

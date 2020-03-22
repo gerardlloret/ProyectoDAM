@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FreeAgent</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_in">LOG IN</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_pagina_principal">PaginaPrincipalActivity</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Login</string>
+    <string name="no_account">No tienes ninguna cuenta?</string>
+    <string name="btn_register">Registrate aqui</string>
+    <string name="forget_pass">Has olvidado la contraseña?</string>
+    <string name="msg_recover_pass">Introduce tu correo y te enviaremos un nuevo password para el Login</string>
+    <string name="btn_send">ENVIA</string>
+    <string name="msg_remember_pass">Has recuperado tu contraseña?</string>
+    <string name="link_go_login">Vuelve al login</string>
+    <string name="msg_check_email">Comprueba tu correo para ver tu nueva contraseña</string>
+    <string name="btn_go_back_login">Vuelve al Login</string>
+    <string name="playerUser">Cuenta Jugador</string>
+    <string name="teamUser">Cuenta Equipo</string>
+    <string name="userName">Nombre de usuario</string>
+    <string name="confirmPassword">Confirma la contraseña</string>
+    <string name="btnCreate">Crear</string>
+</resources>
