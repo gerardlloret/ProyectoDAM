@@ -86,11 +86,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Gson gson = new Gson();
                         Token token = gson.fromJson(response, Token.class);
-                        Log.d("gla", token.getData());
-                        if(token.getErrorCode()==0){
+                        Log.d("gla", token.getToken());
+                        if(token.getError().equalsIgnoreCase("")){
                             SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("token", token.getData());
+                            editor.putString("token", token.getToken());
                             editor.apply();
                         }
                     }

@@ -1,34 +1,26 @@
 package com.example.proyecto.Model;
 
 public class Token {
-    private String data;
-    private int errorCode;
-    private String errorMsg;
+    private String token;
+    private String error;
 
-    public Token(String data, int errorCode, String errorMsg){
-        this.data = data;
-        this.errorCode = errorCode;
-        this.errorMsg = errorMsg;
+    public Token(String data, String errorCode){
+        this.token = data;
+        this.error = errorCode;
     }
 
-    public String getData() {
-        return data;
+    public String getToken() {
+        return token;
     }
-    public void setData(String data){
-        this.data = data;
-    }
-
-    public int getErrorCode() {
-        return errorCode;
-    }
-    public void setErrorCode(int errorCode){
-        this.errorCode = errorCode;
+    public void setToken(String token){
+        this.token = token;
     }
 
-    public String getErrorMsg() {
-        return errorMsg;
+    public String getError() {
+        return error;
     }
-    public void setErrorMsg(String errorMsg){
-        this.errorMsg = errorMsg;
+    public void getError(int errorCode){
+        this.error = error;
     }
+
 }
