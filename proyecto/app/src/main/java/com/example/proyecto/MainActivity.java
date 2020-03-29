@@ -42,16 +42,16 @@ public class MainActivity extends AppCompatActivity {
 
         //CAMBIAR PANTALLA PRINCIPAL
         Button btnLogin = findViewById(R.id.btnLogin);
-        login(etEmail.getText().toString(), etPass.getText().toString());
-        if(!obtenerToken().equalsIgnoreCase("def")) {
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login(etEmail.getText().toString(), etPass.getText().toString());
+                if(!obtenerToken().equalsIgnoreCase("def")) {
                     Intent intent = new Intent(MainActivity.this, ControllerActivity.class);
                     startActivity(intent);
                 }
-            });
-        }
+            }
+        });
 
         //CAMBIAR PANTALLA REGISTER
         Button btnRegister = findViewById(R.id.btnRegister);
