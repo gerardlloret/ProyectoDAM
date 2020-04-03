@@ -77,16 +77,17 @@ public class MainActivity extends AppCompatActivity {
     //Metodo para el login, si las credenciales son correctas setea un token en el sSharedPreferences
     protected void login(final String email, final String pass){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "ruta_que_aun_no_se";
+        //No funciona, devuelve error 400
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/login/?";
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        System.out.println("Hola" + response);
                         Gson gson = new Gson();
                         Token token = gson.fromJson(response, Token.class);
-                        Log.d("gla", token.getToken());
                         if(token.getError().equalsIgnoreCase("")){
                             SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
@@ -98,13 +99,14 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        System.out.println(error);
                     }
                 }
         ){
             @Override protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
-                params.put("pass", pass);
+                params.put("password", pass);
                 return params;
             }
         };
