@@ -17,6 +17,7 @@
         <activity android:name=".RecoverPass.RecoverActivity" />
         <activity android:name=".RecoverPass.RecoverSendActivity" />
         <activity android:name=".NavigationController.ControllerActivity" />
+        <activity android:name=".Detail.OfertaDetailActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
