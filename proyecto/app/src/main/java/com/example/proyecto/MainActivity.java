@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.example.proyecto.Model.Token;
 import com.example.proyecto.NavigationController.ControllerActivity;
 import com.example.proyecto.RecoverPass.RecoverActivity;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login(etEmail.getText().toString(), etPass.getText().toString());
-                if(!obtenerToken().equalsIgnoreCase("def")) {
+                if (!obtenerToken().equalsIgnoreCase("def")) {
                     Intent intent = new Intent(MainActivity.this, ControllerActivity.class);
                     startActivity(intent);
                 }
@@ -74,26 +75,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //Metodo para el login, si las credenciales son correctas setea un token en el sSharedPreferences
-    protected void login(final String email, final String pass){
+    //Metodo para el login, si las credenciales son correctas setea un token en el SharedPreferences
+    protected void login(final String email, final String pass) {
         RequestQueue queue = Volley.newRequestQueue(this);
-        //No funciona, devuelve error 400
-        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/login/?";
+        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/login/";
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Hola" + response);
                         Gson gson = new Gson();
                         Token token = gson.fromJson(response, Token.class);
-                        if(token.getError().equalsIgnoreCase("")){
-                            SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("token", token.getToken());
-                            editor.apply();
-                        }
+                        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("token", token.getToken());
+                        editor.apply();
                     }
                 },
                 new Response.ErrorListener() {
@@ -102,19 +99,20 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(error);
                     }
                 }
-        ){
-            @Override protected Map<String, String> getParams() {
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
-                params.put("password", pass);
-                return params;
+                params.put("password",pass);
+                return  params;
             }
         };
         queue.add(request);
     }
 
     //Metodo para obtener el token del shared preferences
-    private String obtenerToken(){
+    private String obtenerToken() {
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
         Log.d("gla", tok);

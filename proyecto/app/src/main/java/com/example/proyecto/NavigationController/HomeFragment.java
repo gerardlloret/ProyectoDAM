@@ -72,9 +72,9 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    protected void obtenerOfertas(final String token){
+   protected void obtenerOfertas(final String token){
         /*RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.flx.cat/dam2game/ranking?token=" + token;
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta" + token;
         Log.d("env", url);
         StringRequest request = new StringRequest(
                 Request.Method.GET,
