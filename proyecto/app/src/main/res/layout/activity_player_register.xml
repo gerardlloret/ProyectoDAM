@@ -29,7 +29,7 @@
         tools:text="@string/playerUser" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/playerRegisterUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPRname" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/playerRegisterEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -50,10 +50,10 @@
         android:text="@string/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/playerRegisterUsername" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/playerRegisterPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -62,10 +62,10 @@
         android:text="@string/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/playerRegisterEmail" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/playerRegisterPass2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -74,15 +74,15 @@
         android:text="@string/confirmPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/playerRegisterPass" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnPlayerRegisterCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/btnCreate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/playerRegisterPass2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
