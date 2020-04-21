@@ -26,6 +26,8 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlayerRegisterActivity extends AppCompatActivity {
 
@@ -48,15 +50,18 @@ public class PlayerRegisterActivity extends AppCompatActivity {
         playerRegisterUsername = findViewById(R.id.playerRegisterUsername);
         playerRegisterEmail = findViewById(R.id.playerRegisterEmail);
         playerRegisterPass = findViewById(R.id.playerRegisterPass);
+        playerRegisterPass2 = findViewById(R.id.playerRegisterPass2);
 
         btnPlayerRegisterCreate = findViewById(R.id.btnPlayerRegisterCreate);
         btnPlayerRegisterCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crearJugador(playerRegisterUsername.getText().toString(), playerRegisterEmail.getText().toString(), playerRegisterPass.getText().toString());
-                if (!obtenerToken().equalsIgnoreCase("def")) {
-                    Intent intent = new Intent(PlayerRegisterActivity.this, ControllerActivity.class);
-                    startActivity(intent);
+                if(comprobaciones()) {
+                    crearJugador(playerRegisterUsername.getText().toString(), playerRegisterEmail.getText().toString(), playerRegisterPass.getText().toString());
+                    if (!obtenerToken().equalsIgnoreCase("def")) {
+                        Intent intent = new Intent(PlayerRegisterActivity.this, ControllerActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -109,4 +114,91 @@ public class PlayerRegisterActivity extends AppCompatActivity {
         Log.d("gla", tok);
         return tok;
     }
+
+    public boolean checkJugadorId(final String id) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/checkJugadorId/";
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println(error);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("jugador_id", id );
+                return params;
+            }
+        };
+        queue.add(request);
+        return false;
+    }
+
+    public boolean checkJugadorEmail(final String email) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/checkJugadorId/";
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println(error);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email );
+                return params;
+            }
+        };
+        queue.add(request);
+        return false;
+    }
+
+    public boolean comprobaciones(){
+        boolean valido = true;
+        if(!playerRegisterPass.getText().toString().equals(playerRegisterPass2.getText().toString())) {
+            playerRegisterPass2.setError("Las constraseñas deben coincidir");
+            valido = false;
+        }
+        if(playerRegisterUsername.getText().toString().length()==0||playerRegisterUsername.getText().toString().length()>30){
+            playerRegisterUsername.setError("EL nombre de usuario debe tener de 1 a 30 caracteres");
+            valido = false;
+        }
+        if(playerRegisterEmail.getText().toString().length()==0||playerRegisterEmail.getText().toString().length()>30){
+            playerRegisterUsername.setError("EL email debe tener de 1 a 30 caracteres");
+            valido = false;
+        }
+        if(playerRegisterPass.getText().toString().length()==0||playerRegisterPass.getText().toString().length()>30){
+            playerRegisterUsername.setError("La contraseña debe tener de 1 a 30 caracteres");
+            valido = false;
+        }
+        if(Manager.emailValido(playerRegisterEmail.getText().toString())){
+            playerRegisterEmail.setError("Este email no tiene un formato valido");
+            valido = false;
+        }
+        return valido;
+    }
+
+
 }

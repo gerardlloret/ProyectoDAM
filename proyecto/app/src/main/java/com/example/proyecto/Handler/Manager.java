@@ -15,36 +15,17 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class Manager extends AppCompatActivity {
+public class Manager {
 
-    public boolean checkJugadorId(final String id) {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/checkJugadorId/";
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error);
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("jugador_id", id );
-                return params;
-            }
-        };
-        queue.add(request);
+    public static boolean emailValido(String email){
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher mather = pattern.matcher(email);
+        if (mather.find() == true) {
+            return true;
+        }
         return false;
     }
 }
