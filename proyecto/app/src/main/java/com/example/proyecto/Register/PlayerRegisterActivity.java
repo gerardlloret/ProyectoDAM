@@ -181,19 +181,19 @@ public class PlayerRegisterActivity extends AppCompatActivity {
             playerRegisterPass2.setError("Las constraseñas deben coincidir");
             valido = false;
         }
-        if(playerRegisterUsername.getText().toString().length()==0||playerRegisterUsername.getText().toString().length()>30){
+        if(playerRegisterUsername.getText().toString().length()<1||playerRegisterUsername.getText().toString().length()>30){
             playerRegisterUsername.setError("EL nombre de usuario debe tener de 1 a 30 caracteres");
             valido = false;
         }
-        if(playerRegisterEmail.getText().toString().length()==0||playerRegisterEmail.getText().toString().length()>30){
+        if(playerRegisterEmail.getText().toString().length()<1||playerRegisterEmail.getText().toString().length()>30){
             playerRegisterUsername.setError("EL email debe tener de 1 a 30 caracteres");
             valido = false;
         }
-        if(playerRegisterPass.getText().toString().length()==0||playerRegisterPass.getText().toString().length()>30){
+        if(playerRegisterPass.getText().toString().length()<1||playerRegisterPass.getText().toString().length()>30){
             playerRegisterUsername.setError("La contraseña debe tener de 1 a 30 caracteres");
             valido = false;
         }
-        if(Manager.emailValido(playerRegisterEmail.getText().toString())){
+        if(!Manager.emailValido(playerRegisterEmail.getText().toString())){
             playerRegisterEmail.setError("Este email no tiene un formato valido");
             valido = false;
         }

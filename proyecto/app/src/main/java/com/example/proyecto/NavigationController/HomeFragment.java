@@ -86,8 +86,8 @@ public class HomeFragment extends Fragment {
                         Gson gson = new Gson();
                         RankResponse rankResponse = gson.fromJson(response, RankResponse.class);
                         List<User> users = rankResponse.getUsers();
-                        Collections.sort(users, Collections.reverseOrder());
-                        RankingAdapter adapter = new RankingAdapter(users);
+                        //Collections.sort(users, Collections.reverseOrder());
+                        OfertasAdapter adapter = new OfertasAdapter(users);
                         recyclerView.setAdapter(adapter);
                     }
                 },
@@ -99,12 +99,12 @@ public class HomeFragment extends Fragment {
                 }
         );
         queue.add(request);*/
-        RankingAdapter adapter = new RankingAdapter();
+        OfertasAdapter adapter = new OfertasAdapter();
         homeFragmentRecyclerView.setAdapter(adapter);
     }
 
 
-    class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHolder> {
+    class OfertasAdapter extends RecyclerView.Adapter<OfertasAdapter.ViewHolder> {
 
         // ViewHolder: Conté referències als diferents objectes del layout
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -121,9 +121,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition();
-                        //User user = users.get(position);
+                        //Oferta oferta = users.get(position);
                         Intent intent = new Intent(getActivity(), OfertaDetailActivity.class);
-                        //intent.putExtra("id", user.getId());
+                        //intent.putExtra("id", oferta.getOferta_id());
                         startActivity(intent);
                     }
                 });
@@ -131,11 +131,11 @@ public class HomeFragment extends Fragment {
         }
 
         // Dades disponibles gràcies al constructor
-        //private List<User> users;
+        //private List<Oferta> ofertas;
 
-        RankingAdapter() {
+        OfertasAdapter() {
             super();
-            //this.users = users;
+            //this.ofertas = ofertas;
         }
 
         // Desplegar el layout quan no tenim suficients en pantalla
@@ -152,8 +152,8 @@ public class HomeFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Log.d("flx", "onBindViewHolder() : " + position);
-            //User user = users.get(position);
-            //holder.tvPlayerName.setText(user.getName());
+            //Oferta oferta = oferta.get(position);
+            //holder.itemOfertaTitle.setText(oferta.getNombre());
             //holder.tvPuntuation.setText(String.valueOf(user.getTotalScore()));
             //Picasso.get().load(user.getImage()).into(holder.ivRankingPlayer);
             holder.itemOfertaTitle.setText("TITLE");
@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment {
         // Indica quants elements tenim a la llista
         @Override
         public int getItemCount() {
-            //return users.size();
+            //return ofertas.size();
             return 10;
         }
 
