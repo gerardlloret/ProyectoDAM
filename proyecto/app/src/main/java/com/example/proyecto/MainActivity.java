@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login(etEmail.getText().toString(), etPass.getText().toString());
-                if (!obtenerToken().equalsIgnoreCase("def")) {
+                //login(etEmail.getText().toString(), etPass.getText().toString());
+                //if (!obtenerToken().equalsIgnoreCase("def")) {
                     Intent intent = new Intent(MainActivity.this, ControllerActivity.class);
                     startActivity(intent);
-                }
+                //}
             }
         });
 

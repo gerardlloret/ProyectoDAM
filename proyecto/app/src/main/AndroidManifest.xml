@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.proyecto">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,13 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Edit.PlayerEditActivity"></activity>
         <activity android:name=".Register.SelectionActivity" />
         <activity android:name=".Register.PlayerRegisterActivity" />
         <activity android:name=".Register.TeamRegisterActivity" />
         <activity android:name=".RecoverPass.RecoverActivity" />
         <activity android:name=".RecoverPass.RecoverSendActivity" />
         <activity android:name=".NavigationController.ControllerActivity" />
-        <activity android:name=".Detail.OfertaDetailActivity"/>
+        <activity android:name=".Detail.OfertaDetailActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
