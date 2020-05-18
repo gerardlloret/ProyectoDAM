@@ -186,11 +186,11 @@ public class PlayerRegisterActivity extends AppCompatActivity {
             valido = false;
         }
         if(playerRegisterEmail.getText().toString().length()<1||playerRegisterEmail.getText().toString().length()>30){
-            playerRegisterUsername.setError("EL email debe tener de 1 a 30 caracteres");
+            playerRegisterEmail.setError("EL email debe tener de 1 a 30 caracteres");
             valido = false;
         }
         if(playerRegisterPass.getText().toString().length()<1||playerRegisterPass.getText().toString().length()>30){
-            playerRegisterUsername.setError("La contraseña debe tener de 1 a 30 caracteres");
+            playerRegisterPass.setError("La contraseña debe tener de 1 a 30 caracteres");
             valido = false;
         }
         if(!Manager.emailValido(playerRegisterEmail.getText().toString())){
