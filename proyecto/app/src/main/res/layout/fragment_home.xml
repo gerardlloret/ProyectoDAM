@@ -19,11 +19,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_oferta" />
 
-    <TextView
-        android:id="@+id/fragHomeTest"
-        android:layout_width="143dp"
-        android:layout_height="43dp"
-        android:text="TextView"
-        android:textSize="30sp"/>
-
 </FrameLayout>

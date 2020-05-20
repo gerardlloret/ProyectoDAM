@@ -1,21 +1,24 @@
 package com.example.proyecto.Model;
 
+import java.util.List;
+
 public class Oferta {
     private int oferta_id;
-    private int equipo_id;
+    private int equipo;
     private String nombre;
     private String descripcion;
     private int numero_candidaturas;
-    private int juego_id;
+    private int juego;
     private int vacantes;
+
 
     public Oferta(int oferta_id, int equipo_id, String nombre, String descripcion, int numero_candidaturas, int juego_id, int vacantes) {
         this.oferta_id = oferta_id;
-        this.equipo_id = equipo_id;
+        this.equipo = equipo_id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numero_candidaturas = numero_candidaturas;
-        this.juego_id = juego_id;
+        this.juego = juego_id;
         this.vacantes = vacantes;
     }
 
@@ -28,11 +31,11 @@ public class Oferta {
     }
 
     public int getEquipo_id() {
-        return equipo_id;
+        return equipo;
     }
 
     public void setEquipo_id(int equipo_id) {
-        this.equipo_id = equipo_id;
+        this.equipo = equipo_id;
     }
 
     public String getNombre() {
@@ -60,11 +63,11 @@ public class Oferta {
     }
 
     public int getJuego_id() {
-        return juego_id;
+        return juego;
     }
 
     public void setJuego_id(int juego_id) {
-        this.juego_id = juego_id;
+        this.juego = juego_id;
     }
 
     public int getVacantes() {

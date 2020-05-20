@@ -15,7 +15,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/ofertaandroid"
+        tools:srcCompat="@drawable/ofertaandroid" />
 
     <TextView
         android:id="@+id/itemOfertaTitle"
