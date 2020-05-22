@@ -47,10 +47,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login(etEmail.getText().toString(), etPass.getText().toString());
-                if (!obtenerToken().equalsIgnoreCase("def")) {
-                    Intent intent = new Intent(MainActivity.this, ControllerActivity.class);
-                    startActivity(intent);
-                }
             }
         });
 
@@ -93,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         editor.putString("token", token.getToken());
                         editor.putString("email", email);
                         editor.apply();
+                        pushToNavigationController();
                     }
                 },
                 new Response.ErrorListener() {
@@ -120,4 +117,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("gla", tok);
         return tok;
     }
+
+    private void pushToNavigationController(){
+        if (!obtenerToken().equalsIgnoreCase("def")) {
+            Intent intent = new Intent(MainActivity.this, ControllerActivity.class);
+            startActivity(intent);
+        }
+    }
+
 }

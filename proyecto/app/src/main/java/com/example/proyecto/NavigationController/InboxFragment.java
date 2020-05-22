@@ -91,8 +91,6 @@ public class InboxFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.d("responses", response);
                         Gson gson = new Gson();
-                        //OfertaResponse ofertaResponse = gson.fromJson(response, OfertaResponse.class);
-                        //List<Oferta> ofertas = ofertaResponse.getOfertas();
                         Type collectionType = new TypeToken<List<Oferta>>(){}.getType();
                         List<Oferta> ofertas = gson.fromJson(response, collectionType);
                         for (int i = ofertas.size()-1; i >= 0; i--) {
@@ -127,8 +125,6 @@ public class InboxFragment extends Fragment {
             }
         };
         queue.add(request);
-        //OfertasAdapter adapter = new OfertasAdapter();
-        //homeFragmentRecyclerView.setAdapter(adapter);
     }
 
     class OfertasJugadorAdapter extends RecyclerView.Adapter<OfertasJugadorAdapter.ViewHolder> {
@@ -180,9 +176,6 @@ public class InboxFragment extends Fragment {
         public void onBindViewHolder(@NonNull InboxFragment.OfertasJugadorAdapter.ViewHolder holder, int position) {
             Log.d("flx", "onBindViewHolder() : " + position);
             Oferta oferta = ofertas.get(position);
-            //holder.itemOfertaTitle.setText(oferta.getNombre());
-            //holder.tvPuntuation.setText(String.valueOf(user.getTotalScore()));
-            //Picasso.get().load(user.getImage()).into(holder.ivRankingPlayer);
             holder.itemOfertaTitle.setText(oferta.getNombre());
             holder.itemOfertaName.setText(oferta.getDescripcion());
         }
@@ -191,7 +184,6 @@ public class InboxFragment extends Fragment {
         @Override
         public int getItemCount() {
             return ofertas.size();
-            //return 10;
         }
 
     }

@@ -37,6 +37,13 @@ public class PlayerRegisterActivity extends AppCompatActivity {
     EditText playerRegisterPass2;
     Button btnPlayerRegisterCreate;
 
+    //Metodo para obtener el token del shared preferences
+    private String obtenerToken() {
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        String tok = preferences.getString("token", "def");
+        Log.d("gla", tok);
+        return tok;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +65,11 @@ public class PlayerRegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(comprobaciones()) {
                     crearJugador(playerRegisterUsername.getText().toString(), playerRegisterEmail.getText().toString(), playerRegisterPass.getText().toString());
-                    if (!obtenerToken().equalsIgnoreCase("def")) {
-                        Intent intent = new Intent(PlayerRegisterActivity.this, ControllerActivity.class);
-                        startActivity(intent);
-                    }
                 }
             }
         });
 
     }
-
 
     //Metodo para el crear un jugador
     protected void crearJugador(final String alias, final String email, final String password) {
@@ -85,6 +87,7 @@ public class PlayerRegisterActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("token", token.getToken());
                         editor.apply();
+                        pushToNavigationController();
                     }
                 },
                 new Response.ErrorListener() {
@@ -97,7 +100,6 @@ public class PlayerRegisterActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("jugador_id", "16");
                 params.put("alias", alias);
                 params.put("email",email);
                 params.put("password",password);
@@ -105,74 +107,6 @@ public class PlayerRegisterActivity extends AppCompatActivity {
             }
         };
         queue.add(request);
-    }
-
-    //Metodo para obtener el token del shared preferences
-    private String obtenerToken() {
-        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-        String tok = preferences.getString("token", "def");
-        Log.d("gla", tok);
-        return tok;
-    }
-
-    public boolean checkJugadorId(final String id) {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/checkJugadorId/";
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error);
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("jugador_id", id );
-                return params;
-            }
-        };
-        queue.add(request);
-        return false;
-    }
-
-    public boolean checkJugadorEmail(final String email) {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/checkJugadorId/";
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error);
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email );
-                return params;
-            }
-        };
-        queue.add(request);
-        return false;
     }
 
     public boolean comprobaciones(){
@@ -200,5 +134,40 @@ public class PlayerRegisterActivity extends AppCompatActivity {
         return valido;
     }
 
+    private void pushToNavigationController(){
+        if (!obtenerToken().equalsIgnoreCase("def")) {
+            Intent intent = new Intent(PlayerRegisterActivity.this, ControllerActivity.class);
+            startActivity(intent);
+        }
+    }
 
+    /*public boolean checkJugadorEmail(final String email) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/checkJugadorId/";
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println(error);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email );
+                return params;
+            }
+        };
+        queue.add(request);
+        return false;
+    }*/
 }
