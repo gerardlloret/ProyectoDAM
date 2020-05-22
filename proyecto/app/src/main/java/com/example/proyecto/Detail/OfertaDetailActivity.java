@@ -34,6 +34,13 @@ public class OfertaDetailActivity extends AppCompatActivity {
     TextView ofertaDetailGame;
     TextView ofertaDetailVacants;
 
+    //Metode per obtenir el token
+    private String obtenerToken(){
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        String tok = preferences.getString("token", "def");
+        return tok;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +54,6 @@ public class OfertaDetailActivity extends AppCompatActivity {
         obtenerOfertaById(obtenerToken(), String.valueOf(id));
     }
 
-    //Metode per obtenir el token
-    private String obtenerToken(){
-        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-        String tok = preferences.getString("token", "def");
-        return tok;
-    }
 
     //Metode per obtenir una oferta a partir del seu id
     protected void obtenerOfertaById(final String token, final String id){

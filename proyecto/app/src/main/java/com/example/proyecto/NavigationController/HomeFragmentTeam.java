@@ -1,22 +1,19 @@
 package com.example.proyecto.NavigationController;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,7 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.proyecto.Detail.OfertaDetailActivity;
+import com.example.proyecto.Detail.JugadorDetailActivity;
+import com.example.proyecto.Model.Jugador;
 import com.example.proyecto.Model.Oferta;
 import com.example.proyecto.R;
 import com.google.gson.Gson;
@@ -38,15 +36,11 @@ import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HomeFragment extends Fragment {
+public class HomeFragmentTeam extends Fragment {
 
-    //AppCompatTextView fragHomeTest;
-    RecyclerView homeFragmentRecyclerView;
+    RecyclerView homeFragmentTeamRecyclerView;
 
-    public HomeFragment() {
+    public HomeFragmentTeam() {
         // Required empty public constructor
     }
 
@@ -61,19 +55,18 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("gla", "HOME: ");
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_team, container, false);
 
-        homeFragmentRecyclerView = view.findViewById(R.id.homeFragmentRecyclerView);
+        homeFragmentTeamRecyclerView = view.findViewById(R.id.homeFragmentTeamRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        homeFragmentRecyclerView.setLayoutManager(layoutManager);
-        obtenerOfertas(obtenerToken());
+        homeFragmentTeamRecyclerView.setLayoutManager(layoutManager);
+        obtenerJugadores(obtenerToken());
         return view;
     }
 
-   protected void obtenerOfertas(final String token){
+    protected void obtenerJugadores(final String token){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta";
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador";
         Log.d("env", url);
         Log.d("env", token);
         StringRequest request = new StringRequest(
@@ -85,9 +78,9 @@ public class HomeFragment extends Fragment {
                         Log.d("responses", response);
                         Gson gson = new Gson();
                         Type collectionType = new TypeToken<List<Oferta>>(){}.getType();
-                        List<Oferta> ofertas = gson.fromJson(response, collectionType);
-                        OfertasAdapter adapter = new OfertasAdapter(ofertas);
-                        homeFragmentRecyclerView.setAdapter(adapter);
+                        List<Jugador> jugadores = gson.fromJson(response, collectionType);
+                        HomeFragmentTeam.JugadoresAdapter adapter = new HomeFragmentTeam.JugadoresAdapter(jugadores);
+                        homeFragmentTeamRecyclerView.setAdapter(adapter);
                     }
                 },
                 new Response.ErrorListener() {
@@ -105,31 +98,28 @@ public class HomeFragment extends Fragment {
             }
         };
         queue.add(request);
-        //OfertasAdapter adapter = new OfertasAdapter();
-        //homeFragmentRecyclerView.setAdapter(adapter);
     }
 
-
-    class OfertasAdapter extends RecyclerView.Adapter<OfertasAdapter.ViewHolder> {
+    class JugadoresAdapter extends RecyclerView.Adapter<JugadoresAdapter.ViewHolder> {
 
         // ViewHolder: Conté referències als diferents objectes del layout
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView itemOfertaTitle;
-            ImageView itemOfertaImg;
-            TextView itemOfertaName;
+            TextView itemPlayerAlias;
+            ImageView itemPlayerImg;
+            TextView itemPlayerEmail;
 
             ViewHolder(View view) {
                 super(view);
-                itemOfertaTitle = view.findViewById(R.id.itemOfertaTitle);
-                itemOfertaImg = view.findViewById(R.id.itemOfertaImg);
-                itemOfertaName = view.findViewById(R.id.itemOfertaName);
+                itemPlayerAlias = view.findViewById(R.id.itemPlayerAlias);
+                itemPlayerImg = view.findViewById(R.id.itemPlayerImg);
+                itemPlayerEmail = view.findViewById(R.id.itemPlayerEmail);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition();
-                        Oferta oferta = ofertas.get(position);
-                        Intent intent = new Intent(getActivity(), OfertaDetailActivity.class);
-                        intent.putExtra("id", oferta.getOferta_id());
+                        Jugador jugador = jugadores.get(position);
+                        Intent intent = new Intent(getActivity(), JugadorDetailActivity.class);
+                        intent.putExtra("email", jugador.getEmail());
                         startActivity(intent);
                     }
                 });
@@ -137,11 +127,11 @@ public class HomeFragment extends Fragment {
         }
 
         // Dades disponibles gràcies al constructor
-        private List<Oferta> ofertas;
+        private List<Jugador> jugadores;
 
-        OfertasAdapter(List<Oferta> ofertas) {
+        JugadoresAdapter(List<Jugador> jugadores) {
             super();
-            this.ofertas = ofertas;
+            this.jugadores = jugadores;
         }
 
         // Desplegar el layout quan no tenim suficients en pantalla
@@ -150,7 +140,7 @@ public class HomeFragment extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d("flx", "onCreateViewHolder()");
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_oferta, parent, false);
+                    .inflate(R.layout.item_player, parent, false);
             return new ViewHolder(view);
         }
 
@@ -158,23 +148,18 @@ public class HomeFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Log.d("flx", "onBindViewHolder() : " + position);
-            Oferta oferta = ofertas.get(position);
-            //holder.itemOfertaTitle.setText(oferta.getNombre());
-            //holder.tvPuntuation.setText(String.valueOf(user.getTotalScore()));
+            Jugador jugador = jugadores.get(position);
             //Picasso.get().load(user.getImage()).into(holder.ivRankingPlayer);
-            holder.itemOfertaTitle.setText(oferta.getNombre());
-            holder.itemOfertaName.setText(oferta.getDescripcion());
+            holder.itemPlayerAlias.setText(jugador.getAlias());
+            holder.itemPlayerEmail.setText(jugador.getEmail());
         }
 
         // Indica quants elements tenim a la llista
         @Override
         public int getItemCount() {
-            return ofertas.size();
-            //return 10;
+            return jugadores.size();
         }
 
     }
-
-
 
 }

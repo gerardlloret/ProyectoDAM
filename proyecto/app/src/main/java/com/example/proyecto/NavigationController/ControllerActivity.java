@@ -21,6 +21,7 @@ public class ControllerActivity extends AppCompatActivity {
     private NotificationFragment notificationFragment;
     private ProfileFragment profileFragment;
     private InboxFragment inboxFragment;
+    private HomeFragmentTeam homeFragmentTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class ControllerActivity extends AppCompatActivity {
         notificationFragment = new NotificationFragment();
         profileFragment = new ProfileFragment();
         inboxFragment = new InboxFragment();
+        homeFragmentTeam = new HomeFragmentTeam();
 
         //DEFAULT FRAGMENT
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
