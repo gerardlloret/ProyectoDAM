@@ -3,30 +3,22 @@ package com.example.proyecto.Model;
 import java.util.Date;
 
 public class Jugador {
-    private int jugador_id;
     private String nombre;
     private String alias;
     private String password;
+    private String imagen;
     private Date fecha_nacimiento;
     private int equipo_id;
     private String email;
 
-    public Jugador(int jugador_id, String nombre, String alias, String password, Date fecha_nacimiento, int equipo_id, String email) {
-        this.jugador_id = jugador_id;
+    public Jugador(String nombre, String alias, String password, String imagen, Date fecha_nacimiento, int equipo_id, String email) {
         this.nombre = nombre;
         this.alias = alias;
         this.password = password;
+        this.imagen = imagen;
         this.fecha_nacimiento = fecha_nacimiento;
         this.equipo_id = equipo_id;
         this.email = email;
-    }
-
-    public int getJugador_id() {
-        return jugador_id;
-    }
-
-    public void setJugador_id(int jugador_id) {
-        this.jugador_id = jugador_id;
     }
 
     public String getNombre() {

@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
     private String obtenerToken(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
+        System.out.printf(tok + "Lolaaaaaaaa");
         return tok;
     }
 
@@ -76,6 +77,7 @@ public class HomeFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta";
         Log.d("env", url);
+       Log.d("env", token);
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 url,

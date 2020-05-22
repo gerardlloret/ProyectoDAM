@@ -89,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
                         Token token = gson.fromJson(response, Token.class);
                         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
+                        //SharedPreferences.Editor editor2 = preferences.edit();
                         editor.putString("token", token.getToken());
+                        editor.putString("email", email);
                         editor.apply();
                     }
                 },

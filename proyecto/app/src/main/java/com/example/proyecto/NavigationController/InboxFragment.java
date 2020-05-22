@@ -2,6 +2,7 @@ package com.example.proyecto.NavigationController;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +17,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Detail.OfertaDetailActivity;
+import com.example.proyecto.Model.Oferta;
 import com.example.proyecto.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,24 +48,41 @@ public class InboxFragment extends Fragment {
         // Required empty public constructor
     }
 
+    //Metodo pera obtener el token
+    private String obtenerToken(){
+        SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
+        String tok = preferences.getString("token", "def");
+        System.out.printf(tok);
+        return tok;
+    }
+
+    private String obtenerEmail(){
+        SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
+        String email = preferences.getString("email", "def");
+        System.out.printf(email);
+        return email;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inbox, container, false);
         inboxFragmentRecyclerView = view.findViewById(R.id.inboxFragmentRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         inboxFragmentRecyclerView.setLayoutManager(layoutManager);
 
-        obtenerOfertasJugador("jugador", "token");
+        obtenerOfertasJugador(obtenerEmail(), obtenerToken());
         return view;
     }
 
-    protected void obtenerOfertasJugador(final String jugador, final String token){
-        /*RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta" + token;
+    protected void obtenerOfertasJugador(final String email, final String token){
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta";
         Log.d("env", url);
+        Log.d("env", token);
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 url,
@@ -56,11 +91,25 @@ public class InboxFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.d("responses", response);
                         Gson gson = new Gson();
-                        RankResponse rankResponse = gson.fromJson(response, RankResponse.class);
-                        List<User> users = rankResponse.getUsers();
-                        //Collections.sort(users, Collections.reverseOrder());
-                        OfertasAdapter adapter = new OfertasAdapter(users);
-                        recyclerView.setAdapter(adapter);
+                        //OfertaResponse ofertaResponse = gson.fromJson(response, OfertaResponse.class);
+                        //List<Oferta> ofertas = ofertaResponse.getOfertas();
+                        Type collectionType = new TypeToken<List<Oferta>>(){}.getType();
+                        List<Oferta> ofertas = gson.fromJson(response, collectionType);
+                        for (int i = ofertas.size()-1; i >= 0; i--) {
+                            boolean contains = false;
+                            Oferta o = ofertas.get(i);
+                            for (int j = 0; j < o.getJugador().size(); j++) {
+                                if (o.getJugador().get(j).equalsIgnoreCase(email)){
+                                    contains = true;
+                                    System.out.println(contains);
+                                }
+                            }
+                            if (!contains) {
+                                ofertas.remove(o);
+                            }
+                        }
+                        InboxFragment.OfertasJugadorAdapter adapter = new InboxFragment.OfertasJugadorAdapter(ofertas);
+                        inboxFragmentRecyclerView.setAdapter(adapter);
                     }
                 },
                 new Response.ErrorListener() {
@@ -69,10 +118,17 @@ public class InboxFragment extends Fragment {
                         Log.d("env", "ERROR ENVIAR: " + error.getMessage());
                     }
                 }
-        );
-        queue.add(request);*/
-        OfertasJugadorAdapter adapter = new OfertasJugadorAdapter();
-        inboxFragmentRecyclerView.setAdapter(adapter);
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization","Token " + token);
+                return  header;
+            }
+        };
+        queue.add(request);
+        //OfertasAdapter adapter = new OfertasAdapter();
+        //homeFragmentRecyclerView.setAdapter(adapter);
     }
 
     class OfertasJugadorAdapter extends RecyclerView.Adapter<OfertasJugadorAdapter.ViewHolder> {
@@ -92,9 +148,9 @@ public class InboxFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition();
-                        //Oferta oferta = users.get(position);
+                        Oferta oferta = ofertas.get(position);
                         Intent intent = new Intent(getActivity(), OfertaDetailActivity.class);
-                        //intent.putExtra("id", oferta.getOferta_id());
+                        intent.putExtra("id", oferta.getOferta_id());
                         startActivity(intent);
                     }
                 });
@@ -102,40 +158,40 @@ public class InboxFragment extends Fragment {
         }
 
         // Dades disponibles gràcies al constructor
-        //private List<Oferta> ofertas;
+        private List<Oferta> ofertas;
 
-        OfertasJugadorAdapter() {
+        OfertasJugadorAdapter(List<Oferta> ofertas) {
             super();
-            //this.ofertas = ofertas;
+            this.ofertas = ofertas;
         }
 
         // Desplegar el layout quan no tenim suficients en pantalla
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public InboxFragment.OfertasJugadorAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d("flx", "onCreateViewHolder()");
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_oferta, parent, false);
-            return new ViewHolder(view);
+            return new InboxFragment.OfertasJugadorAdapter.ViewHolder(view);
         }
 
         // Associem un element (dades) a un ViewHolder (pantalla)
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull InboxFragment.OfertasJugadorAdapter.ViewHolder holder, int position) {
             Log.d("flx", "onBindViewHolder() : " + position);
-            //Oferta oferta = oferta.get(position);
+            Oferta oferta = ofertas.get(position);
             //holder.itemOfertaTitle.setText(oferta.getNombre());
             //holder.tvPuntuation.setText(String.valueOf(user.getTotalScore()));
             //Picasso.get().load(user.getImage()).into(holder.ivRankingPlayer);
-            holder.itemOfertaTitle.setText("TITLEINBOX");
-            holder.itemOfertaName.setText("NOMBREINBOX");
+            holder.itemOfertaTitle.setText(oferta.getNombre());
+            holder.itemOfertaName.setText(oferta.getDescripcion());
         }
 
         // Indica quants elements tenim a la llista
         @Override
         public int getItemCount() {
-            //return ofertas.size();
-            return 10;
+            return ofertas.size();
+            //return 10;
         }
 
     }

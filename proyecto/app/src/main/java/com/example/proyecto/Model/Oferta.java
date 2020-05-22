@@ -9,16 +9,18 @@ public class Oferta {
     private String descripcion;
     private int numero_candidaturas;
     private int juego;
+    private List<String> jugador;
     private int vacantes;
 
 
-    public Oferta(int oferta_id, int equipo_id, String nombre, String descripcion, int numero_candidaturas, int juego_id, int vacantes) {
+    public Oferta(int oferta_id, int equipo, String nombre, String descripcion, int numero_candidaturas, int juego, List<String> jugador, int vacantes) {
         this.oferta_id = oferta_id;
-        this.equipo = equipo_id;
+        this.equipo = equipo;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numero_candidaturas = numero_candidaturas;
-        this.juego = juego_id;
+        this.juego = juego;
+        this.jugador = jugador;
         this.vacantes = vacantes;
     }
 
@@ -76,5 +78,29 @@ public class Oferta {
 
     public void setVacantes(int vacantes) {
         this.vacantes = vacantes;
+    }
+
+    public int getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(int equipo) {
+        this.equipo = equipo;
+    }
+
+    public int getJuego() {
+        return juego;
+    }
+
+    public void setJuego(int juego) {
+        this.juego = juego;
+    }
+
+    public List<String> getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(List<String> jugador) {
+        this.jugador = jugador;
     }
 }

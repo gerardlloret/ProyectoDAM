@@ -17,6 +17,8 @@ import com.example.proyecto.Model.Token;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -51,6 +53,13 @@ public class Manager {
             e.getMessage();
             return null;
         }
+    }
+
+    //Recibe un date y devuelve un String con el formato dd/MM/YYYY
+    public static String DateToEuropeanDate(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        String sqlDate = sdf.format(date);
+        return sqlDate;
     }
 
 }
