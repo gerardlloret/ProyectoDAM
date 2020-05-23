@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Oferta {
     private int oferta_id;
-    private int equipo;
+    private String equipo;
     private String nombre;
     private String descripcion;
     private int numero_candidaturas;
@@ -13,7 +13,7 @@ public class Oferta {
     private int vacantes;
 
 
-    public Oferta(int oferta_id, int equipo, String nombre, String descripcion, int numero_candidaturas, int juego, List<String> jugador, int vacantes) {
+    public Oferta(int oferta_id, String equipo, String nombre, String descripcion, int numero_candidaturas, int juego, List<String> jugador, int vacantes) {
         this.oferta_id = oferta_id;
         this.equipo = equipo;
         this.nombre = nombre;
@@ -32,11 +32,11 @@ public class Oferta {
         this.oferta_id = oferta_id;
     }
 
-    public int getEquipo_id() {
+    public String getEquipo_id() {
         return equipo;
     }
 
-    public void setEquipo_id(int equipo_id) {
+    public void setEquipo_id(String equipo_id) {
         this.equipo = equipo_id;
     }
 
@@ -80,11 +80,11 @@ public class Oferta {
         this.vacantes = vacantes;
     }
 
-    public int getEquipo() {
+    public String getEquipo() {
         return equipo;
     }
 
-    public void setEquipo(int equipo) {
+    public void setEquipo(String equipo) {
         this.equipo = equipo;
     }
 

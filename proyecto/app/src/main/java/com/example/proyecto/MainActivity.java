@@ -33,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
     EditText etEmail;
     EditText etPass;
 
+    //Metodo para obtener el token del shared preferences
+    private String obtenerToken() {
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        String tok = preferences.getString("token", "def");
+        Log.d("gla", tok);
+        return tok;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         //SharedPreferences.Editor editor2 = preferences.edit();
                         editor.putString("token", token.getToken());
                         editor.putString("email", email);
+                        editor.putString("tipo", "jugador");
                         editor.apply();
                         pushToNavigationController();
                     }
@@ -95,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error);
+                        System.out.println("error");
+                        loginEquipo(email, pass);
                     }
                 }
         ) {
@@ -110,12 +120,46 @@ public class MainActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    //Metodo para obtener el token del shared preferences
-    private String obtenerToken() {
-        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-        String tok = preferences.getString("token", "def");
-        Log.d("gla", tok);
-        return tok;
+    //Metodo para el login, si las credenciales son correctas setea un token en el SharedPreferences
+    protected void loginEquipo(final String email, final String pass) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/loginEquipo/";
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Gson gson = new Gson();
+                        Token token = gson.fromJson(response, Token.class);
+                        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        //SharedPreferences.Editor editor2 = preferences.edit();
+                        editor.putString("token", token.getToken());
+                        editor.putString("email", email);
+                        editor.putString("tipo", "equipo");
+                        editor.apply();
+                        pushToNavigationController();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("error");
+                        etEmail.setError("Credenciales incorrectas");
+                        etPass.setError("Credenciales incorrectas");
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
+                params.put("password",pass);
+                return  params;
+            }
+        };
+        queue.add(request);
     }
 
     private void pushToNavigationController(){

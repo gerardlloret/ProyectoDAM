@@ -1,6 +1,8 @@
 package com.example.proyecto.NavigationController;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -22,6 +24,15 @@ public class ControllerActivity extends AppCompatActivity {
     private ProfileFragment profileFragment;
     private InboxFragment inboxFragment;
     private HomeFragmentTeam homeFragmentTeam;
+    private InboxFragmentTeam inboxFragmentTeam;
+    private ProfileFragmentTeam profileFragmentTeam;
+
+    private String obtenerTipo() {
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        String tipo = preferences.getString("tipo", "def");
+        Log.d("gla", tipo);
+        return tipo;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +46,19 @@ public class ControllerActivity extends AppCompatActivity {
         profileFragment = new ProfileFragment();
         inboxFragment = new InboxFragment();
         homeFragmentTeam = new HomeFragmentTeam();
+        inboxFragmentTeam = new InboxFragmentTeam();
+        profileFragmentTeam = new ProfileFragmentTeam();
 
         //DEFAULT FRAGMENT
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, homeFragment);
-        fragmentTransaction.commit();
+        if (obtenerTipo().equalsIgnoreCase("jugador")){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, homeFragment);
+            fragmentTransaction.commit();
+        } else {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, homeFragmentTeam);
+            fragmentTransaction.commit();
+        }
 
         /*if (savedInstanceState == null) {
             bottomNavigationView.setSelectedItemId(R.id.navigation_home); // change to whichever id should be default
@@ -50,11 +69,19 @@ public class ControllerActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.navigation_home :
-                        InitializeFragment(homeFragment);
+                        if (obtenerTipo().equalsIgnoreCase("jugador")) {
+                            InitializeFragment(homeFragment);
+                        } else {
+                            InitializeFragment(homeFragmentTeam);
+                        }
                         return true;
 
                     case R.id.navigation_inbox :
-                        InitializeFragment(inboxFragment);
+                        if (obtenerTipo().equalsIgnoreCase("jugador")) {
+                            InitializeFragment(inboxFragment);
+                        } else {
+                            InitializeFragment(inboxFragmentTeam);
+                        }
                         return true;
 
                     case R.id.navigation_notification :
@@ -62,7 +89,11 @@ public class ControllerActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.navigation_profile :
-                        InitializeFragment(profileFragment);
+                        if (obtenerTipo().equalsIgnoreCase("jugador")) {
+                            InitializeFragment(profileFragment);
+                        } else {
+                            InitializeFragment(profileFragmentTeam);
+                        }
                         return true;
 
                 }

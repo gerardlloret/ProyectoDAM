@@ -64,7 +64,7 @@ public class InboxFragmentTeam extends Fragment {
 
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_inbox, container, false);
+        View view = inflater.inflate(R.layout.fragment_inbox_team, container, false);
         inboxFragmentTeamRecyclerView = view.findViewById(R.id.inboxFragmentTeamRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         inboxFragmentTeamRecyclerView.setLayoutManager(layoutManager);
@@ -75,7 +75,7 @@ public class InboxFragmentTeam extends Fragment {
 
     protected void obtenerOfertasEquipo(final String email, final String token){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/"+email;
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/ofertaByEquipo/"+email;
         Log.d("env", url);
         Log.d("env", token);
         StringRequest request = new StringRequest(

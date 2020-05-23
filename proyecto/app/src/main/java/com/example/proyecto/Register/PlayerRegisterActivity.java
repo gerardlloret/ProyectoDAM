@@ -86,6 +86,8 @@ public class PlayerRegisterActivity extends AppCompatActivity {
                         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("token", token.getToken());
+                        editor.putString("email", email);
+                        editor.putString("tipo", "jugador");
                         editor.apply();
                         pushToNavigationController();
                     }
@@ -94,6 +96,7 @@ public class PlayerRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println(error);
+                        playerRegisterEmail.setError("Ya existe un jugador con ese email");
                     }
                 }
         ) {

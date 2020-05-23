@@ -4,9 +4,9 @@ public class Juego {
     private int juego_id;
     private String nombre;
     private String genero;
-    private int pegI;
+    private String pegI;
 
-    public Juego(int juego_id, String nombre, String genero, int pegI) {
+    public Juego(int juego_id, String nombre, String genero, String pegI) {
         this.juego_id = juego_id;
         this.nombre = nombre;
         this.genero = genero;
@@ -37,11 +37,11 @@ public class Juego {
         this.genero = genero;
     }
 
-    public int getPegI() {
+    public String getPegI() {
         return pegI;
     }
 
-    public void setPegI(int pegI) {
+    public void setPegI(String pegI) {
         this.pegI = pegI;
     }
 }

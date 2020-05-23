@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -52,11 +53,19 @@ public class TeamRegisterActivity extends AppCompatActivity {
         ptTeamRegisterPass2 = findViewById(R.id.ptTeamRegisterPass2);
 
         btnTeamRegisterCreate = findViewById(R.id.btnTeamRegisterCreate);
+        btnTeamRegisterCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(comprobaciones()) {
+                    crearEquipo(ptTeamRegisterUsername.getText().toString(), ptTeamRegisterEmail.getText().toString(), ptTeamRegisterPass.getText().toString());
+                }
+            }
+        });
     }
 
 
     //Metodo para el crear un equipo
-    protected void crearJugador(final String username, final String email, final String password) {
+    protected void crearEquipo(final String name, final String email, final String password) {
         RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/signUpEquipo/";
         StringRequest request = new StringRequest(
@@ -70,21 +79,24 @@ public class TeamRegisterActivity extends AppCompatActivity {
                         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("token", token.getToken());
+                        editor.putString("email", email);
+                        editor.putString("tipo", "equipo");
                         editor.apply();
-
+                        pushToNavigationController();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println(error);
+                        ptTeamRegisterEmail.setError("Ya existe un equipo con este email");
                     }
                 }
         ) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", username);
+                params.put("nombre", name);
                 params.put("email",email);
                 params.put("password",password);
                 return  params;

@@ -8,10 +8,10 @@ public class Jugador {
     private String password;
     private String imagen;
     private Date fecha_nacimiento;
-    private int equipo_id;
+    private String equipo_id;
     private String email;
 
-    public Jugador(String nombre, String alias, String password, String imagen, Date fecha_nacimiento, int equipo_id, String email) {
+    public Jugador(String nombre, String alias, String password, String imagen, Date fecha_nacimiento, String equipo_id, String email) {
         this.nombre = nombre;
         this.alias = alias;
         this.password = password;
@@ -53,11 +53,11 @@ public class Jugador {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
-    public int getEquipo_id() {
+    public String getEquipo_id() {
         return equipo_id;
     }
 
-    public void setEquipo_id(int equipo_id) {
+    public void setEquipo_id(String equipo_id) {
         this.equipo_id = equipo_id;
     }
 

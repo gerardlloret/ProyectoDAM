@@ -77,7 +77,7 @@ public class HomeFragmentTeam extends Fragment {
                     public void onResponse(String response) {
                         Log.d("responses", response);
                         Gson gson = new Gson();
-                        Type collectionType = new TypeToken<List<Oferta>>(){}.getType();
+                        Type collectionType = new TypeToken<List<Jugador>>(){}.getType();
                         List<Jugador> jugadores = gson.fromJson(response, collectionType);
                         HomeFragmentTeam.JugadoresAdapter adapter = new HomeFragmentTeam.JugadoresAdapter(jugadores);
                         homeFragmentTeamRecyclerView.setAdapter(adapter);
