@@ -1,28 +1,18 @@
 package com.example.proyecto.Model;
 
 public class Equipo {
-    private int equipo_id;
     private String nombre;
     private int vacantes;
     private String descripcion;
     private int numero_miembros;
     private String email;
 
-    public Equipo(int equipo_id, String nombre, int vacantes, String descripcion, int numero_miembros, String email) {
-        this.equipo_id = equipo_id;
+    public Equipo(String nombre, int vacantes, String descripcion, int numero_miembros, String email) {
         this.nombre = nombre;
         this.vacantes = vacantes;
         this.descripcion = descripcion;
         this.numero_miembros = numero_miembros;
         this.email = email;
-    }
-
-    public int getEquipo_id() {
-        return equipo_id;
-    }
-
-    public void setEquipo_id(int equipo_id) {
-        this.equipo_id = equipo_id;
     }
 
     public String getNombre() {

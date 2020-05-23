@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Detail.JugadorDetailActivity"></activity>
+        <activity android:name=".Edit.TeamEditActivity"></activity>
+        <activity android:name=".Detail.JugadorDetailActivity" />
         <activity android:name=".Edit.PlayerEditActivity" />
         <activity android:name=".Register.SelectionActivity" />
         <activity android:name=".Register.PlayerRegisterActivity" />
