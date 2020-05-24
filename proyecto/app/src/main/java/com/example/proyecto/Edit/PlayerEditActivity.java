@@ -147,7 +147,6 @@ public class PlayerEditActivity extends AppCompatActivity {
                         jugador.setNombre(etAPEname.getText().toString());
                         jugador.setAlias(etAPEalias.getText().toString());
                         jugador.setPassword(etAPEcontact.getText().toString());
-                        //ESTO ES PARA LA IMAGEN COMPRUEBA QUE FUNCIONE DESPUES DE COMPROBAR LO OTRO
                         BitmapDrawable bitmapDrawable = ((BitmapDrawable) ivAPEimage.getDrawable());
                         Bitmap bitmap = bitmapDrawable.getBitmap();
                         jugador.setImagen(Manager.BitMapToString(bitmap));
@@ -185,11 +184,6 @@ public class PlayerEditActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("flx", response);
                         Gson gson = new Gson();
-                        //ESTO ES PARA LA IMAGEN COMPRUEBA QUE FUNCIONE DESPUES DE COMPROBAR LO OTRO
-                        //BitmapDrawable bitmapDrawable = ((BitmapDrawable) ivAPEimage.getDrawable());
-                        //Bitmap bitmap = bitmapDrawable.getBitmap();
-                        //jugador.setImagen(Manager.BitMapToString(bitmap));
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -237,10 +231,6 @@ public class PlayerEditActivity extends AppCompatActivity {
             etAPEcontact.setError("La contraseña debe tener de 1 a 30 caracteres");
             valido = false;
         }
-        /*if(!Manager.emailValido(etAPEcontact.getText().toString())){
-            etAPEcontact.setError("Este email no tiene un formato valido");
-            valido = false;
-        }*/
         return valido;
     }
 

@@ -3,13 +3,15 @@ package com.example.proyecto.Model;
 public class Equipo {
     private String nombre;
     private int vacantes;
+    String password;
     private String descripcion;
     private int numero_miembros;
     private String email;
 
-    public Equipo(String nombre, int vacantes, String descripcion, int numero_miembros, String email) {
+    public Equipo(String nombre, int vacantes, String password, String descripcion, int numero_miembros, String email) {
         this.nombre = nombre;
         this.vacantes = vacantes;
+        this.password = password;
         this.descripcion = descripcion;
         this.numero_miembros = numero_miembros;
         this.email = email;
@@ -53,5 +55,13 @@ public class Equipo {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
