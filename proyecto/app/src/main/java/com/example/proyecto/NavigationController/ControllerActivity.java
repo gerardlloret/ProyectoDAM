@@ -26,6 +26,7 @@ public class ControllerActivity extends AppCompatActivity {
     private HomeFragmentTeam homeFragmentTeam;
     private InboxFragmentTeam inboxFragmentTeam;
     private ProfileFragmentTeam profileFragmentTeam;
+    boolean jugador = false;
 
     private String obtenerTipo() {
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
@@ -49,8 +50,13 @@ public class ControllerActivity extends AppCompatActivity {
         inboxFragmentTeam = new InboxFragmentTeam();
         profileFragmentTeam = new ProfileFragmentTeam();
 
-        //DEFAULT FRAGMENT
+
         if (obtenerTipo().equalsIgnoreCase("jugador")){
+            jugador = true;
+        }
+
+        //DEFAULT FRAGMENT
+        if (jugador){
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frameLayout, homeFragment);
             fragmentTransaction.commit();
@@ -69,7 +75,7 @@ public class ControllerActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.navigation_home :
-                        if (obtenerTipo().equalsIgnoreCase("jugador")) {
+                        if (jugador) {
                             InitializeFragment(homeFragment);
                         } else {
                             InitializeFragment(homeFragmentTeam);
@@ -77,7 +83,7 @@ public class ControllerActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.navigation_inbox :
-                        if (obtenerTipo().equalsIgnoreCase("jugador")) {
+                        if (jugador) {
                             InitializeFragment(inboxFragment);
                         } else {
                             InitializeFragment(inboxFragmentTeam);
@@ -89,7 +95,7 @@ public class ControllerActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.navigation_profile :
-                        if (obtenerTipo().equalsIgnoreCase("jugador")) {
+                        if (jugador) {
                             InitializeFragment(profileFragment);
                         } else {
                             InitializeFragment(profileFragmentTeam);

@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/userProfileImage"
         android:layout_width="208dp"
         android:layout_height="109dp"
         android:layout_marginTop="48dp"
@@ -39,7 +39,7 @@
         android:layout_marginTop="24dp"
         android:text="Name:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/userProfileImage" />
 
     <TextView
         android:id="@+id/tvFHage"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Age:"
+        android:text="Alias:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFHname" />
 
@@ -89,13 +89,13 @@
         android:layout_marginTop="24dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/tvFHname"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/userProfileImage" />
 
     <TextView
-        android:id="@+id/userProfileAge"
+        android:id="@+id/userProfileAlias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
+        android:layout_marginStart="99dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/tvFHage"
@@ -105,11 +105,11 @@
         android:id="@+id/userProfileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="78dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/tvFHcontact"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileAge" />
+        app:layout_constraintTop_toBottomOf="@+id/userProfileAlias" />
 
     <TextView
         android:id="@+id/textView5"

@@ -50,10 +50,6 @@ public class PlayerRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_register);
 
-        //Manager manager = new Manager();
-
-        //manager.checkJugadorId("1");
-
         playerRegisterUsername = findViewById(R.id.playerRegisterUsername);
         playerRegisterEmail = findViewById(R.id.playerRegisterEmail);
         playerRegisterPass = findViewById(R.id.playerRegisterPass);
@@ -144,33 +140,4 @@ public class PlayerRegisterActivity extends AppCompatActivity {
         }
     }
 
-    /*public boolean checkJugadorEmail(final String email) {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/checkJugadorId/";
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error);
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email );
-                return params;
-            }
-        };
-        queue.add(request);
-        return false;
-    }*/
 }

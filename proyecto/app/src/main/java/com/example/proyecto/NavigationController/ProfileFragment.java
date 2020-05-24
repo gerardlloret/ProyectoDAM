@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +29,7 @@ import com.example.proyecto.Model.Jugador;
 import com.example.proyecto.Model.Oferta;
 import com.example.proyecto.R;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,8 +42,9 @@ import static android.content.Context.MODE_PRIVATE;
 public class ProfileFragment extends Fragment {
 
     TextView userProfileName;
-    TextView userProfileAge;
+    TextView userProfileAlias;
     TextView userProfileEmail;
+    ImageView userProfileImage;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -70,8 +73,9 @@ public class ProfileFragment extends Fragment {
 
 
         userProfileName = view.findViewById(R.id.userProfileName);
-        userProfileAge = view.findViewById(R.id.userProfileAge);
+        userProfileAlias = view.findViewById(R.id.userProfileAlias);
         userProfileEmail = view.findViewById(R.id.userProfileEmail);
+        userProfileImage = view.findViewById(R.id.userProfileImage);
 
         //Push to edit
         Button btnFHeditProfile = view.findViewById(R.id.btnFHeditProfile);
@@ -116,11 +120,11 @@ public class ProfileFragment extends Fragment {
                         Gson gson = new Gson();
                         Jugador jugador = gson.fromJson(response, Jugador.class);
                         userProfileName.setText(jugador.getNombre());
-                        userProfileAge.setText(Manager.DateToEuropeanDate(jugador.getFecha_nacimiento()));
+                        userProfileAlias.setText(jugador.getAlias());
                         userProfileEmail.setText(jugador.getEmail());
-                        //user = detail.getData();
-                        //tvPlayerActivity.setText(user.getName());
-                        //Picasso.get().load(user.getImage()).into(ivPlayerDetail);
+                        if(!jugador.getImagen().isEmpty()){
+                            Picasso.get().load(jugador.getImagen()).into(userProfileImage);
+                        }
                     }
                 },
                 new Response.ErrorListener() {

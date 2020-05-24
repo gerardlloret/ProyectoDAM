@@ -5,17 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Handler.Manager;
+import com.example.proyecto.Model.Jugador;
 import com.example.proyecto.R;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.proyecto.Handler.Manager.BitMapToString;
 
@@ -27,12 +43,34 @@ public class PlayerEditActivity extends AppCompatActivity {
     private static final int imgGalery = 100;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     Uri imageUri;
+    EditText etAPEname;
+    EditText etAPEalias;
+    EditText etAPEcontact;
+
+    //Metodo para obtener el token del shared preferences
+    private String obtenerToken() {
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        String tok = preferences.getString("token", "def");
+        Log.d("gla", tok);
+        return tok;
+    }
+
+    private String obtenerEmail(){
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        String email = preferences.getString("email", "def");
+        System.out.printf(email);
+        return email;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_edit);
 
+        etAPEname = findViewById(R.id.etAPEname);
+        etAPEalias = findViewById(R.id.etAPEalias);
+        etAPEcontact = findViewById(R.id.etAPEcontact);
         ivAPEimage = findViewById(R.id.ivAPEimage);
         btnAPEtakePhoto = findViewById(R.id.btnAPEtakePhoto);
         btnAPEgalery = findViewById(R.id.btnAPEgalery);
@@ -48,6 +86,17 @@ public class PlayerEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openGalery();
+            }
+        });
+
+        //SETTEAR NUEVOS DATOS
+        Button btnAPEdone = findViewById(R.id.btnAPEdone);
+        btnAPEdone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(comprobaciones()){
+                    obtenerPerfilByEmail(obtenerToken(), obtenerEmail());
+                }
             }
         });
     }
@@ -81,5 +130,73 @@ public class PlayerEditActivity extends AppCompatActivity {
         }
     }
 
+    //Metode per obtenir un jugador a partir del seu email
+    protected void obtenerPerfilByEmail(final String token, final String email){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
+        System.out.println(url);
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("flx", response);
+                        Gson gson = new Gson();
+                        Jugador jugador = gson.fromJson(response, Jugador.class);
+                        jugador.setNombre(etAPEname.getText().toString());
+                        jugador.setAlias(etAPEalias.getText().toString());
+                        //ESTO ES PARA LA IMAGEN COMPRUEBA QUE FUNCIONE DESPUES DE COMPROBAR LO OTRO
+                        //BitmapDrawable bitmapDrawable = ((BitmapDrawable) ivAPEimage.getDrawable());
+                        //Bitmap bitmap = bitmapDrawable.getBitmap();
+                        //jugador.setImagen(Manager.BitMapToString(bitmap));
+
+                        updateJugador(jugador, obtenerToken());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("flx", "ERROR: " + error.getMessage());
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization","Token " + token);
+                return  header;
+            }
+        };
+        queue.add(request);
+    }
+
+
+    protected void updateJugador(Jugador jugador, final String token){
+
+
+    }
+
+
+    public boolean comprobaciones(){
+        boolean valido = true;
+        if(etAPEname.getText().toString().length()<1||etAPEname.getText().toString().length()>30){
+            etAPEname.setError("EL nombre de usuario debe tener de 1 a 30 caracteres");
+            valido = false;
+        }
+        if(etAPEalias.getText().toString().length()<1||etAPEalias.getText().toString().length()>30){
+            etAPEalias.setError("EL alias debe tener de 1 a 30 caracteres");
+            valido = false;
+        }
+        if(etAPEcontact.getText().toString().length()<1||etAPEcontact.getText().toString().length()>30){
+            etAPEcontact.setError("EL email debe tener de 1 a 30 caracteres");
+            valido = false;
+        }
+        if(!Manager.emailValido(etAPEcontact.getText().toString())){
+            etAPEcontact.setError("Este email no tiene un formato valido");
+            valido = false;
+        }
+        return valido;
+    }
 
 }
