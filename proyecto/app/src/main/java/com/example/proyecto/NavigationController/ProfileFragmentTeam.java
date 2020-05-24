@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Edit.TeamEditActivity;
 import com.example.proyecto.Handler.Manager;
+import com.example.proyecto.MainActivity;
 import com.example.proyecto.Model.Equipo;
 import com.example.proyecto.R;
 import com.google.gson.Gson;
@@ -75,6 +76,19 @@ public class ProfileFragmentTeam extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TeamEditActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Log Out
+        Button btnFPTlogOut = view.findViewById(R.id.btnFPTlogOut);
+        btnFPTlogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preferences = getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("token", "def");
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
         });

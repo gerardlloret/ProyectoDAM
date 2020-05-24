@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Edit.PlayerEditActivity;
 import com.example.proyecto.Handler.Manager;
+import com.example.proyecto.MainActivity;
 import com.example.proyecto.Model.Jugador;
 import com.example.proyecto.Model.Oferta;
 import com.example.proyecto.R;
@@ -78,6 +79,20 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PlayerEditActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //Log Out
+        Button btnFHPlogOut = view.findViewById(R.id.btnFHPlogOut);
+        btnFHPlogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preferences = getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("token", "def");
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
         });

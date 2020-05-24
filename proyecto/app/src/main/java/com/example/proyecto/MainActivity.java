@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPass = findViewById(R.id.etPass);
 
+        if(!obtenerToken().equalsIgnoreCase("def")){
+            pushToNavigationController();
+        }
+
         //CAMBIAR PANTALLA PRINCIPAL
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                         Token token = gson.fromJson(response, Token.class);
                         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
-                        //SharedPreferences.Editor editor2 = preferences.edit();
                         editor.putString("token", token.getToken());
                         editor.putString("email", email);
                         editor.putString("tipo", "jugador");
