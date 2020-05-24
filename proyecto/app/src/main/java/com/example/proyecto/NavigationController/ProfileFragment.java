@@ -122,7 +122,7 @@ public class ProfileFragment extends Fragment {
                         userProfileName.setText(jugador.getNombre());
                         userProfileAlias.setText(jugador.getAlias());
                         userProfileEmail.setText(jugador.getEmail());
-                        if(!jugador.getImagen().isEmpty()){
+                        if(jugador.getImagen() != null){
                             Picasso.get().load(jugador.getImagen()).into(userProfileImage);
                         }
                     }

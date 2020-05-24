@@ -146,12 +146,13 @@ public class PlayerEditActivity extends AppCompatActivity {
                         Jugador jugador = gson.fromJson(response, Jugador.class);
                         jugador.setNombre(etAPEname.getText().toString());
                         jugador.setAlias(etAPEalias.getText().toString());
+                        jugador.setPassword(etAPEcontact.getText().toString());
                         //ESTO ES PARA LA IMAGEN COMPRUEBA QUE FUNCIONE DESPUES DE COMPROBAR LO OTRO
                         //BitmapDrawable bitmapDrawable = ((BitmapDrawable) ivAPEimage.getDrawable());
                         //Bitmap bitmap = bitmapDrawable.getBitmap();
                         //jugador.setImagen(Manager.BitMapToString(bitmap));
 
-                        updateJugador(jugador, obtenerToken());
+                        updateJugador(email, jugador, obtenerToken());
                     }
                 },
                 new Response.ErrorListener() {
@@ -172,8 +173,51 @@ public class PlayerEditActivity extends AppCompatActivity {
     }
 
 
-    protected void updateJugador(Jugador jugador, final String token){
+    protected void updateJugador(final String email, final Jugador jugador, final String token){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
+        System.out.println(url);
+        StringRequest request = new StringRequest(
+                Request.Method.PUT,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("flx", response);
+                        Gson gson = new Gson();
+                        //ESTO ES PARA LA IMAGEN COMPRUEBA QUE FUNCIONE DESPUES DE COMPROBAR LO OTRO
+                        //BitmapDrawable bitmapDrawable = ((BitmapDrawable) ivAPEimage.getDrawable());
+                        //Bitmap bitmap = bitmapDrawable.getBitmap();
+                        //jugador.setImagen(Manager.BitMapToString(bitmap));
 
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("flx", "ERROR: " + error.getMessage());
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization","Token " + token);
+                return  header;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+            Map<String, String> params = new HashMap<>();
+            params.put("nombre", jugador.getNombre());
+            params.put("alias", jugador.getAlias());
+            params.put("password", jugador.getPassword());
+            //    System.out.println(jugador.getImagen().length());
+            //params.put("imagen", jugador.getImagen());
+            return  params;
+            }
+        };
+        queue.add(request);
 
     }
 
@@ -189,13 +233,13 @@ public class PlayerEditActivity extends AppCompatActivity {
             valido = false;
         }
         if(etAPEcontact.getText().toString().length()<1||etAPEcontact.getText().toString().length()>30){
-            etAPEcontact.setError("EL email debe tener de 1 a 30 caracteres");
+            etAPEcontact.setError("La contraseña debe tener de 1 a 30 caracteres");
             valido = false;
         }
-        if(!Manager.emailValido(etAPEcontact.getText().toString())){
+        /*if(!Manager.emailValido(etAPEcontact.getText().toString())){
             etAPEcontact.setError("Este email no tiene un formato valido");
             valido = false;
-        }
+        }*/
         return valido;
     }
 
