@@ -148,9 +148,9 @@ public class PlayerEditActivity extends AppCompatActivity {
                         jugador.setAlias(etAPEalias.getText().toString());
                         jugador.setPassword(etAPEcontact.getText().toString());
                         //ESTO ES PARA LA IMAGEN COMPRUEBA QUE FUNCIONE DESPUES DE COMPROBAR LO OTRO
-                        //BitmapDrawable bitmapDrawable = ((BitmapDrawable) ivAPEimage.getDrawable());
-                        //Bitmap bitmap = bitmapDrawable.getBitmap();
-                        //jugador.setImagen(Manager.BitMapToString(bitmap));
+                        BitmapDrawable bitmapDrawable = ((BitmapDrawable) ivAPEimage.getDrawable());
+                        Bitmap bitmap = bitmapDrawable.getBitmap();
+                        jugador.setImagen(Manager.BitMapToString(bitmap));
 
                         updateJugador(email, jugador, obtenerToken());
                     }
@@ -209,11 +209,12 @@ public class PlayerEditActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
             Map<String, String> params = new HashMap<>();
+            params.put("email", jugador.getEmail());
             params.put("nombre", jugador.getNombre());
             params.put("alias", jugador.getAlias());
             params.put("password", jugador.getPassword());
-            //    System.out.println(jugador.getImagen().length());
-            //params.put("imagen", jugador.getImagen());
+                System.out.println(jugador.getImagen().length());
+            params.put("imagen", jugador.getImagen());
             return  params;
             }
         };

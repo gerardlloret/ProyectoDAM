@@ -123,7 +123,8 @@ public class ProfileFragment extends Fragment {
                         userProfileAlias.setText(jugador.getAlias());
                         userProfileEmail.setText(jugador.getEmail());
                         if(jugador.getImagen() != null){
-                            Picasso.get().load(jugador.getImagen()).into(userProfileImage);
+                            userProfileImage.setImageBitmap(Manager.StringToBitMap(jugador.getImagen()));
+                            //Picasso.get().load(jugador.getImagen()).into(userProfileImage);
                         }
                     }
                 },
