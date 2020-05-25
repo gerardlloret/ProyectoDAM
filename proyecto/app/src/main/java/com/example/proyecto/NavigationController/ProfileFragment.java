@@ -64,6 +64,15 @@ public class ProfileFragment extends Fragment {
         return email;
     }
 
+    private void logOut(){
+        SharedPreferences preferences = getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("token", "def");
+        editor.apply();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,11 +102,7 @@ public class ProfileFragment extends Fragment {
         btnFHPlogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("token", "def");
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+                logOut();
             }
         });
 

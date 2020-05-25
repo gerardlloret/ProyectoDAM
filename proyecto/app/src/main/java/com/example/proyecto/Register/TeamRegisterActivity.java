@@ -97,9 +97,10 @@ public class TeamRegisterActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("nombre", name);
-                params.put("email",email);
-                params.put("password",password);
-                return  params;
+                params.put("email", email);
+                params.put("password", password);
+                params.put("descripcion", "");
+                return params;
             }
         };
         queue.add(request);

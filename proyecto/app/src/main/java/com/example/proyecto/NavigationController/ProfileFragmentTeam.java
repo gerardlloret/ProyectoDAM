@@ -58,6 +58,16 @@ public class ProfileFragmentTeam extends Fragment {
         return email;
     }
 
+    private void logOut(){
+        SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("token", "def");
+        editor.apply();
+        System.out.println(obtenerToken() + " LOLAAAA");
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,6 +79,8 @@ public class ProfileFragmentTeam extends Fragment {
         tvFPTvacantes = view.findViewById(R.id.tvFPTvacantes);
         tvFPTmiembros = view.findViewById(R.id.tvFPTmiembros);
         tvFPTdescripcion = view.findViewById(R.id.tvFPTdescripcion);
+
+        obtenerPerfilByEmail(obtenerToken(), obtenerEmail());
 
         //Push to edit
         Button btnFHeditProfileTeam = view.findViewById(R.id.btnFHeditProfileTeam);
@@ -85,11 +97,7 @@ public class ProfileFragmentTeam extends Fragment {
         btnFPTlogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("token", "def");
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+                logOut();
             }
         });
 
@@ -113,9 +121,13 @@ public class ProfileFragmentTeam extends Fragment {
                         Equipo equipo = gson.fromJson(response, Equipo.class);
                         tvFPTnombre.setText(equipo.getNombre());
                         tvFPTemail.setText(equipo.getEmail());
-                        tvFPTvacantes.setText(equipo.getVacantes());
-                        tvFPTmiembros.setText(equipo.getNumero_miembros());
-                        tvFPTdescripcion.setText(equipo.getDescripcion());
+                        tvFPTvacantes.setText(String.valueOf(equipo.getVacantes()));
+                        tvFPTmiembros.setText(String.valueOf(equipo.getNumero_miembros()));
+                        if (null == equipo.getDescripcion() || equipo.getDescripcion().equalsIgnoreCase("")){
+                            tvFPTdescripcion.setText("Este equipo no tiene una descripción");
+                        } else {
+                            tvFPTdescripcion.setText(equipo.getDescripcion());
+                        }
                         //user = detail.getData();
                         //tvPlayerActivity.setText(user.getName());
                         //Picasso.get().load(user.getImage()).into(ivPlayerDetail);

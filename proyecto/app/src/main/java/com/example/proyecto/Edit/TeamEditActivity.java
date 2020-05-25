@@ -56,8 +56,10 @@ public class TeamEditActivity extends AppCompatActivity {
         etATEpass= findViewById(R.id.etATEpass);
         etATEdescription = findViewById(R.id.etATEdescription);
 
+        obtenerPerfilByEmailRellenarDatos(obtenerToken(), obtenerEmail());
+
         //SETTEAR NUEVOS DATOS
-        Button btnATEdone = findViewById(R.id.btnAPEdone);
+        Button btnATEdone = findViewById(R.id.btnATEdone);
         btnATEdone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +88,42 @@ public class TeamEditActivity extends AppCompatActivity {
                         equipo.setDescripcion(etATEdescription.getText().toString());
                         equipo.setPassword(etATEpass.getText().toString());
                         updateEquipo(email, equipo, obtenerToken());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("flx", "ERROR: " + error.getMessage());
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization","Token " + token);
+                return  header;
+            }
+        };
+        queue.add(request);
+    }
+
+    //Metode per obtenir un jugador a partir del seu email
+    protected void obtenerPerfilByEmailRellenarDatos(final String token, final String email){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+email;
+        System.out.println(url);
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("flx", response);
+                        Gson gson = new Gson();
+                        Equipo equipo = gson.fromJson(response, Equipo.class);
+                        etATEname.setText(equipo.getNombre());
+                        etATEdescription.setText(equipo.getDescripcion());
+                        etATEpass.setText(equipo.getPassword());
                     }
                 },
                 new Response.ErrorListener() {
@@ -137,7 +175,7 @@ public class TeamEditActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("email", equipo.getEmail());
+                params.put("emailEquipo", equipo.getEmail());
                 params.put("nombre", equipo.getNombre());
                 params.put("descripcion", equipo.getDescripcion());
                 params.put("password", equipo.getPassword());
@@ -155,8 +193,8 @@ public class TeamEditActivity extends AppCompatActivity {
             etATEname.setError("EL nombre de usuario debe tener de 1 a 30 caracteres");
             valido = false;
         }
-        if(etATEdescription.getText().toString().length()<1||etATEdescription.getText().toString().length()>30){
-            etATEdescription.setError("La descripcion debe tener de 1 a 30 caracteres");
+        if(etATEdescription.getText().toString().length()>100){
+            etATEdescription.setError("La descripcion no debe tener mas de 100");
             valido = false;
         }
         if(etATEpass.getText().toString().length()<1||etATEpass.getText().toString().length()>30){

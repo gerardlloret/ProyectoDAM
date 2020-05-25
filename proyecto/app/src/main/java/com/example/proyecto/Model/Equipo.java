@@ -6,15 +6,15 @@ public class Equipo {
     String password;
     private String descripcion;
     private int numero_miembros;
-    private String email;
+    private String emailEquipo;
 
-    public Equipo(String nombre, int vacantes, String password, String descripcion, int numero_miembros, String email) {
+    public Equipo(String nombre, int vacantes, String password, String descripcion, int numero_miembros, String emailEquipo) {
         this.nombre = nombre;
         this.vacantes = vacantes;
         this.password = password;
         this.descripcion = descripcion;
         this.numero_miembros = numero_miembros;
-        this.email = email;
+        this.emailEquipo = emailEquipo;
     }
 
     public String getNombre() {
@@ -50,11 +50,11 @@ public class Equipo {
     }
 
     public String getEmail() {
-        return email;
+        return emailEquipo;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.emailEquipo = email;
     }
 
     public String getPassword() {
