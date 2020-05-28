@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavigationController.ControllerActivity">
+    tools:context=".NavigationController.ControllerActivity"
+    android:background="@drawable/fondo">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -13,7 +14,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom_navigation_bar"/>
+        app:menu="@menu/menu_bottom_navigation_bar"
+        app:itemIconTint="#FFFFFF"
+        app:itemTextColor="@color/cardview_light_background"
+        />
 
     <FrameLayout
         android:id="@+id/frameLayout"

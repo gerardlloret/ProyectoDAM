@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecoverPass.RecoverActivity">
+    tools:context=".RecoverPass.RecoverActivity"
+    android:background="@drawable/fondo">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="303dp"
         android:layout_height="61dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="216dp"
         android:text="@string/msg_recover_pass"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,11 +23,15 @@
         android:id="@+id/etRecoverActivityEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:background="@drawable/rectangulo"
         android:ems="10"
         android:inputType="textPersonName"
+        android:paddingLeft="10dp"
         android:text="@string/email"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -42,8 +49,10 @@
         android:id="@+id/textView3"
         android:layout_width="225dp"
         android:layout_height="27dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/msg_remember_pass"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/tvGoLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -54,8 +63,23 @@
         android:layout_height="26dp"
         android:layout_marginBottom="64dp"
         android:text="@string/link_go_login"
+        android:textAlignment="center"
         android:textColor="#2196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logofreeagentgrande" />
 </androidx.constraintlayout.widget.ConstraintLayout>

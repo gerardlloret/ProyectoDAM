@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register.SelectionActivity">
+    tools:context=".Register.SelectionActivity"
+    android:background="@drawable/fondo">
 
 
     <ImageView
@@ -15,37 +16,49 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user"
-        tools:srcCompat="@drawable/user" />
+        app:srcCompat="@drawable/playericon"
+        tools:srcCompat="@drawable/playericon" />
 
     <ImageView
         android:id="@+id/ivTeam"
-        android:layout_width="167dp"
-        android:layout_height="221dp"
+        android:layout_width="123dp"
+        android:layout_height="163dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivUser"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/team"
-        tools:srcCompat="@drawable/team" />
+        app:srcCompat="@drawable/teamicon"
+        tools:srcCompat="@drawable/teamicon" />
 
     <TextView
         android:id="@+id/tvPlayer"
-        android:layout_width="85dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/playerUser"
+        android:layout_width="177dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/miniplayeruser"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivUser" />
 
     <TextView
         android:id="@+id/tvTeam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
-        android:text="@string/teamUser"
+        android:layout_width="164dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="36dp"
+        android:background="@drawable/miniteamuser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivTeam" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="38dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logofreeagentgrande" />
 </androidx.constraintlayout.widget.ConstraintLayout>
