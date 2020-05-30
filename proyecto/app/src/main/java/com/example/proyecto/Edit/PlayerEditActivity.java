@@ -1,7 +1,9 @@
 package com.example.proyecto.Edit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -26,7 +28,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Handler.Manager;
 import com.example.proyecto.Model.Equipo;
 import com.example.proyecto.Model.Jugador;
+import com.example.proyecto.NavigationController.ControllerActivity;
 import com.example.proyecto.R;
+import com.example.proyecto.Register.TeamRegisterActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -188,6 +192,8 @@ public class PlayerEditActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("flx", response);
                         Gson gson = new Gson();
+                        showMessage();
+                        //pushToNavigationController();
                     }
                 },
                 new Response.ErrorListener() {
@@ -235,7 +241,6 @@ public class PlayerEditActivity extends AppCompatActivity {
                         Jugador jugador = gson.fromJson(response, Jugador.class);
                         if(jugador.getImagen() != null){
                             ivAPEimage.setImageBitmap(Manager.StringToBitMap(jugador.getImagen()));
-                            //Picasso.get().load(jugador.getImagen()).into(userProfileImage);
                         }
                         etAPEname.setText(jugador.getNombre());
                         etAPEalias.setText(jugador.getAlias());
@@ -276,6 +281,27 @@ public class PlayerEditActivity extends AppCompatActivity {
             valido = false;
         }
         return valido;
+    }
+
+    private void pushToNavigationController(){
+        if (!obtenerToken().equalsIgnoreCase("def")) {
+            Intent intent = new Intent(PlayerEditActivity.this, ControllerActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void showMessage(){
+        AlertDialog alertDialog = new AlertDialog.Builder(PlayerEditActivity.this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Se ha actualizado tu informacion");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        pushToNavigationController();
+                    }
+                });
+        alertDialog.show();
     }
 
 }

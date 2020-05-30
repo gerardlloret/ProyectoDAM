@@ -130,6 +130,7 @@ public class HomeFragment extends Fragment {
                         Oferta oferta = ofertas.get(position);
                         Intent intent = new Intent(getActivity(), OfertaDetailActivity.class);
                         intent.putExtra("id", oferta.getOferta_id());
+                        intent.putExtra("but",2);
                         startActivity(intent);
                     }
                 });

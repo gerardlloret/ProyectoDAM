@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Detail.JugadorDetailActivity;
+import com.example.proyecto.Handler.Manager;
 import com.example.proyecto.Model.Jugador;
 import com.example.proyecto.Model.Oferta;
 import com.example.proyecto.R;
@@ -152,6 +153,9 @@ public class HomeFragmentTeam extends Fragment {
             //Picasso.get().load(user.getImage()).into(holder.ivRankingPlayer);
             holder.itemPlayerAlias.setText(jugador.getAlias());
             holder.itemPlayerEmail.setText(jugador.getEmail());
+            if(jugador.getImagen() != null){
+                holder.itemPlayerImg.setImageBitmap(Manager.StringToBitMap(jugador.getImagen()));
+            }
         }
 
         // Indica quants elements tenim a la llista

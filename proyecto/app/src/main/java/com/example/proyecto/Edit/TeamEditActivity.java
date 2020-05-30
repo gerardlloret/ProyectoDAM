@@ -1,7 +1,10 @@
 package com.example.proyecto.Edit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Handler.Manager;
 import com.example.proyecto.Model.Equipo;
+import com.example.proyecto.NavigationController.ControllerActivity;
 import com.example.proyecto.R;
 import com.google.gson.Gson;
 
@@ -156,6 +160,7 @@ public class TeamEditActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("flx", response);
                         Gson gson = new Gson();
+                        showMessage();
                     }
                 },
                 new Response.ErrorListener() {
@@ -202,5 +207,26 @@ public class TeamEditActivity extends AppCompatActivity {
             valido = false;
         }
         return valido;
+    }
+
+    private void pushToNavigationController(){
+        if (!obtenerToken().equalsIgnoreCase("def")) {
+            Intent intent = new Intent(TeamEditActivity.this, ControllerActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void showMessage(){
+        AlertDialog alertDialog = new AlertDialog.Builder(TeamEditActivity.this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Se ha actualizado tu informacion");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        pushToNavigationController();
+                    }
+                });
+        alertDialog.show();
     }
 }
