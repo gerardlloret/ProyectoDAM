@@ -1,5 +1,6 @@
 package com.example.proyecto.Detail;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -15,18 +17,21 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.proyecto.MainActivity;
 import com.example.proyecto.Model.Equipo;
 import com.example.proyecto.Model.Juego;
+import com.example.proyecto.Model.Jugador;
 import com.example.proyecto.Model.Oferta;
 import com.example.proyecto.NavigationController.ControllerActivity;
 import com.example.proyecto.R;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
+import com.google.gson.JsonObject;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +44,7 @@ public class OfertaDetailActivity extends AppCompatActivity {
     TextView ofertaDetailGame;
     TextView ofertaDetailVacants;
     Button btnOfertaDetailDelete;
+    Oferta ofertaSeleccionada;
 
     //Metode per obtenir el token
     private String obtenerToken(){
@@ -46,6 +52,13 @@ public class OfertaDetailActivity extends AppCompatActivity {
         String tok = preferences.getString("token", "def");
         return tok;
     }
+    private String obtenerEmail(){
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        String email = preferences.getString("email", "def");
+        System.out.printf(email);
+        return email;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +88,20 @@ public class OfertaDetailActivity extends AppCompatActivity {
             btnOfertaDetailDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ofertaSeleccionada.getJugador().add(obtenerEmail());
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("oferta_id", ofertaSeleccionada.getOferta_id());
+                        jsonObject.put("nombre", ofertaSeleccionada.getNombre());
+                        jsonObject.put("descripcion", ofertaSeleccionada.getDescripcion());
+                        jsonObject.put("numero_candidaturas", ofertaSeleccionada.getNumero_candidaturas());
+                        jsonObject.put("vacantes", ofertaSeleccionada.getVacantes());
+                        jsonObject.put("equipo", ofertaSeleccionada.getEquipo());
+                        jsonObject.put("juego", ofertaSeleccionada.getJuego_id());
+                        //JSONArray jsArray = new JSONArray(ofertaSeleccionada.getJugador());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     dejarCandidatura(obtenerToken(), String.valueOf(id));
                 }
             });
@@ -101,10 +128,12 @@ public class OfertaDetailActivity extends AppCompatActivity {
                         Oferta oferta = gson.fromJson(response, Oferta.class);
                         ofertaDetailTitle.setText(oferta.getNombre());
                         ofertaDetailDescription.setText(oferta.getDescripcion());
-                        System.out.println(oferta.getEquipo_id());
-                        obtenerEquipoById(obtenerToken(), String.valueOf(oferta.getEquipo_id()));
+                        System.out.println(oferta.getEquipo());
+                        obtenerEquipoById(obtenerToken(), String.valueOf(oferta.getEquipo()));
                         obtenerJuegoById(obtenerToken(), String.valueOf(oferta.getJuego_id()));
                         ofertaDetailVacants.setText("Vacantes: " + oferta.getVacantes());
+                        ofertaSeleccionada = oferta;
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -192,14 +221,14 @@ public class OfertaDetailActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/"+id;
         StringRequest request = new StringRequest(
-                Request.Method.GET,
+                Request.Method.DELETE,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("flx", response);
                         Gson gson = new Gson();
-                        pushToNavigationController();
+                        showMessage();
                     }
                 },
                 new Response.ErrorListener() {
@@ -219,18 +248,20 @@ public class OfertaDetailActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-
     protected void dejarCandidatura(final String token, final String id){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/"+id;
+        System.out.println(url);
         StringRequest request = new StringRequest(
-                Request.Method.GET,
+                Request.Method.PUT,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("flx", response);
                         Gson gson = new Gson();
+                        showMessage2();
+                        //pushToNavigationController();
                     }
                 },
                 new Response.ErrorListener() {
@@ -245,6 +276,24 @@ public class OfertaDetailActivity extends AppCompatActivity {
                 Map<String, String> header = new HashMap<>();
                 header.put("Authorization","Token " + token);
                 return  header;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("oferta_id", String.valueOf(ofertaSeleccionada.getOferta_id()));
+                params.put("nombre", ofertaSeleccionada.getNombre());
+                params.put("descripcion", ofertaSeleccionada.getDescripcion());
+                params.put("vacantes", String.valueOf(ofertaSeleccionada.getVacantes()));
+                params.put("equipo", ofertaSeleccionada.getEquipo());
+                params.put("juego", String.valueOf(ofertaSeleccionada.getJuego_id()));
+                for (String string : ofertaSeleccionada.getJugador()) {
+                    params.put("jugador", string);
+                }
+                //JSONArray jsArray = new JSONArray(ofertaSeleccionada.getJugador());
+                //params.put("jugador", jsArray.toString());
+                //params.put("jugador", ofertaSeleccionada.getJugador());
+                return  params;
             }
         };
         queue.add(request);
@@ -255,6 +304,33 @@ public class OfertaDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(OfertaDetailActivity.this, ControllerActivity.class);
             startActivity(intent);
         }
+    }
+
+    private void showMessage(){
+        AlertDialog alertDialog = new AlertDialog.Builder(OfertaDetailActivity.this).create();
+        alertDialog.setTitle("Info");
+        alertDialog.setMessage("Se ha borrado la oferta satisfactoriamente");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        pushToNavigationController();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void showMessage2(){
+        AlertDialog alertDialog = new AlertDialog.Builder(OfertaDetailActivity.this).create();
+        alertDialog.setTitle("Info");
+        alertDialog.setMessage("Se ha dejado la candidatura satisfactoriamente");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 }

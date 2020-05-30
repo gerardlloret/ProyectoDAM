@@ -32,14 +32,6 @@ public class Oferta {
         this.oferta_id = oferta_id;
     }
 
-    public String getEquipo_id() {
-        return equipo;
-    }
-
-    public void setEquipo_id(String equipo_id) {
-        this.equipo = equipo_id;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -102,5 +94,19 @@ public class Oferta {
 
     public void setJugador(List<String> jugador) {
         this.jugador = jugador;
+    }
+
+    @Override
+    public String toString() {
+        return "Oferta{" +
+                "oferta_id=" + oferta_id +
+                ", equipo='" + equipo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", numero_candidaturas=" + numero_candidaturas +
+                ", juego=" + juego +
+                ", jugador=" + jugador +
+                ", vacantes=" + vacantes +
+                '}';
     }
 }
