@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_notification"
         android:icon="@drawable/campana"
-        android:title="Notification"/>
+        android:title="Operation"/>
 
     <item
         android:id="@+id/navigation_profile"

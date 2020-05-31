@@ -112,8 +112,8 @@
 
     <TextView
         android:id="@+id/tvFPTdescripcion"
-        android:layout_width="344dp"
-        android:layout_height="212dp"
+        android:layout_width="321dp"
+        android:layout_height="139dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/rectangulo"
         android:paddingLeft="17dp"

@@ -11,7 +11,7 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="96dp"
         android:text="CREATE OFFER"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
@@ -73,11 +73,13 @@
 
     <Spinner
         android:id="@+id/spFCOgames"
-        android:layout_width="205dp"
+        android:layout_width="235dp"
         android:layout_height="42dp"
         android:layout_marginTop="32dp"
+        android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etFCOvacancies" />

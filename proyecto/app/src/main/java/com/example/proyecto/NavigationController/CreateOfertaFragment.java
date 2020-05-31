@@ -2,6 +2,7 @@ package com.example.proyecto.NavigationController;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyecto.Detail.OfertaDetailActivity;
+import com.example.proyecto.Handler.Manager;
 import com.example.proyecto.Model.Juego;
 import com.example.proyecto.R;
 import com.google.gson.Gson;
@@ -69,35 +72,39 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_oferta, container, false);
 
         etFCOname = view.findViewById(R.id.etFCOname);
         etFCOdescription = view.findViewById(R.id.etFCOdescription);
         etFCOvacancies = view.findViewById(R.id.etFCOvacancies);
 
-        obtenerJuegos(obtenerToken());
+        obtenerJuegos(obtenerToken(), view);
 
+        Button btnFCOcreate = view.findViewById(R.id.btnFCOcreate);
+        btnFCOcreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(comprobaciones()) {
+                    crearOferta(obtenerToken());
+                }
+            }
+        });
+        return view;
+    }
+
+    protected void spinnerFunction(View view) {
         spFCOgames = view.findViewById(R.id.spFCOgames);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, spJuegos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spFCOgames.setAdapter(adapter);
         spFCOgames.setOnItemSelectedListener(this);
-
-        Button btnFCOcreate = view.findViewById(R.id.btnFCOcreate);
-        btnFCOcreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                crearOferta(obtenerToken());
-            }
-        });
-        return view;
     }
 
-
-    protected void obtenerJuegos(final String token){
+    protected void obtenerJuegos(final String token, final View view){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/juego/";
+        System.out.println();
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 url,
@@ -112,6 +119,7 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
                             hmJuegos.put(j.getNombre(), String.valueOf(j.getJuego_id()));
                             spJuegos.add(j.getNombre());
                         }
+                        spinnerFunction(view);
                     }
                 },
                 new Response.ErrorListener() {
@@ -137,7 +145,7 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/";
         System.out.println(url);
         StringRequest request = new StringRequest(
-                Request.Method.PUT,
+                Request.Method.POST,
                 url,
                 new Response.Listener<String>() {
                     @Override
@@ -192,12 +200,33 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
     //Metodos del spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String gameSelect = parent.getItemAtPosition(position).toString();
+        String gameSelect = spJuegos.get(position);
         idJuegoSeleccionado = hmJuegos.get(gameSelect);
+        ((TextView)parent.getChildAt(0)).setTextColor(Color.WHITE);
+
+        System.out.println(idJuegoSeleccionado + "LOLAAAAAAAAAAAJFCFVDFG");
     }
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public boolean comprobaciones(){
+        boolean valido = true;
+        if(etFCOname.getText().toString().length()<1||etFCOname.getText().toString().length()>20){
+            etFCOname.setError("EL nombre de la oferta debe tener de 1 a 20 caracteres");
+            valido = false;
+        }
+        if(etFCOdescription.getText().toString().length()<1||etFCOdescription.getText().toString().length()>200){
+            etFCOdescription.setError("La descripcion debe tener de 1 a 200 caracteres");
+            valido = false;
+        }
+        int num = Integer.parseInt(etFCOvacancies.getText().toString());
+        if(num < 1 || num > 99){
+            etFCOvacancies.setError("Las vacancias tienen que ser de 1 a 99");
+            valido = false;
+        }
+        return valido;
     }
 
 }
