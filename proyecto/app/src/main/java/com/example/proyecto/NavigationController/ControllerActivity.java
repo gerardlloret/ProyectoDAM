@@ -26,6 +26,7 @@ public class ControllerActivity extends AppCompatActivity {
     private HomeFragmentTeam homeFragmentTeam;
     private InboxFragmentTeam inboxFragmentTeam;
     private ProfileFragmentTeam profileFragmentTeam;
+    private CreateOfertaFragment createOfertaFragment;
     boolean jugador = false;
 
     private String obtenerTipo() {
@@ -49,7 +50,7 @@ public class ControllerActivity extends AppCompatActivity {
         homeFragmentTeam = new HomeFragmentTeam();
         inboxFragmentTeam = new InboxFragmentTeam();
         profileFragmentTeam = new ProfileFragmentTeam();
-
+        createOfertaFragment = new CreateOfertaFragment();
 
         if (obtenerTipo().equalsIgnoreCase("jugador")){
             jugador = true;
@@ -91,7 +92,11 @@ public class ControllerActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.navigation_notification :
-                        InitializeFragment(notificationFragment);
+                        if (jugador) {
+                            InitializeFragment(notificationFragment);
+                        }else {
+                            InitializeFragment(createOfertaFragment);
+                        }
                         return true;
 
                     case R.id.navigation_profile :
