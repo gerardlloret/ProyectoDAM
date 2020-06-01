@@ -79,6 +79,9 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
         etFCOdescription = view.findViewById(R.id.etFCOdescription);
         etFCOvacancies = view.findViewById(R.id.etFCOvacancies);
 
+        if (!spJuegos.isEmpty()){
+            spJuegos.removeAll(spJuegos);
+        }
         obtenerJuegos(obtenerToken(), view);
 
         Button btnFCOcreate = view.findViewById(R.id.btnFCOcreate);

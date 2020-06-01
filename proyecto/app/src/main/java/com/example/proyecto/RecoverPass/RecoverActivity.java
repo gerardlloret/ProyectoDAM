@@ -80,8 +80,17 @@ public class RecoverActivity extends AppCompatActivity {
         String message = "Your new password is: " + pass;
         JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
         javaMailAPI.execute();
+        resetToken();
         Intent intent = new Intent(RecoverActivity.this, RecoverSendActivity.class);
         startActivity(intent);
+    }
+
+    //Metodo para resetear el token
+    protected void resetToken() {
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("token", "def");
+        editor.apply();
     }
 
     //Metodo para comprobar si existe un jugador con ese email
