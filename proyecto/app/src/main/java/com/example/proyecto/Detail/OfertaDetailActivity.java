@@ -46,12 +46,13 @@ public class OfertaDetailActivity extends AppCompatActivity {
     Button btnOfertaDetailDelete;
     Oferta ofertaSeleccionada;
 
-    //Metode per obtenir el token
+    //Metodo para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
         return tok;
     }
+    //Metodo para obtener el email
     private String obtenerEmail(){
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String email = preferences.getString("email", "def");
@@ -70,13 +71,14 @@ public class OfertaDetailActivity extends AppCompatActivity {
         ofertaDetailGame = findViewById(R.id.ofertaDetailGame);
         ofertaDetailVacants = findViewById(R.id.ofertaDetailVacants);
         btnOfertaDetailDelete = findViewById(R.id.btnOfertaDetailDelete);
+
         //Datos pasados de otras pantallas
         final int id = getIntent().getIntExtra("id", 0);
         final int but = getIntent().getIntExtra("but", 0);
         if(but==0){
             btnOfertaDetailDelete.setVisibility(View.GONE);
         }else if(but==1){
-            btnOfertaDetailDelete.setText("DELETE");
+            btnOfertaDetailDelete.setText(getResources().getString(R.string.btnDelete));
             btnOfertaDetailDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,36 +86,21 @@ public class OfertaDetailActivity extends AppCompatActivity {
                 }
             });
         }else if(but==2){
-            btnOfertaDetailDelete.setText("CANDIDATURA");
+            btnOfertaDetailDelete.setText(getResources().getString(R.string.btnCandidacy));
             btnOfertaDetailDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ofertaSeleccionada.getJugador().add(obtenerEmail());
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("oferta_id", ofertaSeleccionada.getOferta_id());
-                        jsonObject.put("nombre", ofertaSeleccionada.getNombre());
-                        jsonObject.put("descripcion", ofertaSeleccionada.getDescripcion());
-                        jsonObject.put("numero_candidaturas", ofertaSeleccionada.getNumero_candidaturas());
-                        jsonObject.put("vacantes", ofertaSeleccionada.getVacantes());
-                        jsonObject.put("equipo", ofertaSeleccionada.getEquipo());
-                        jsonObject.put("juego", ofertaSeleccionada.getJuego_id());
-                        //JSONArray jsArray = new JSONArray(ofertaSeleccionada.getJugador());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     dejarCandidatura(obtenerToken(), String.valueOf(id));
                 }
             });
         }
-
         obtenerOfertaById(obtenerToken(), String.valueOf(id));
-
 
     }
 
 
-    //Metode per obtenir una oferta a partir del seu id
+    //Metodo para obtener una oferta pasando su id
     protected void obtenerOfertaById(final String token, final String id){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/"+id;
@@ -153,6 +140,7 @@ public class OfertaDetailActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    //Metodo para obtener un equipo pasando su id
     protected void obtenerEquipoById(final String token, final String id){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+id;
@@ -185,6 +173,7 @@ public class OfertaDetailActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    //Metodo para obtener un juego pasando su id
     protected void obtenerJuegoById(final String token, final String id){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/juego/"+id;
@@ -217,6 +206,7 @@ public class OfertaDetailActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    //Metodo para borrar una oferta
     protected void deleteOferta(final String token, final String id){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/"+id;
@@ -248,6 +238,7 @@ public class OfertaDetailActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    //Metodo para crear la relacion jugador/oferta
     protected void dejarCandidatura(final String token, final String id){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/"+id;
@@ -290,15 +281,13 @@ public class OfertaDetailActivity extends AppCompatActivity {
                 for (String string : ofertaSeleccionada.getJugador()) {
                     params.put("jugador", string);
                 }
-                //JSONArray jsArray = new JSONArray(ofertaSeleccionada.getJugador());
-                //params.put("jugador", jsArray.toString());
-                //params.put("jugador", ofertaSeleccionada.getJugador());
                 return  params;
             }
         };
         queue.add(request);
     }
 
+    //Metodo para volver al navigation controller
     private void pushToNavigationController(){
         if (!obtenerToken().equalsIgnoreCase("def")) {
             Intent intent = new Intent(OfertaDetailActivity.this, ControllerActivity.class);
@@ -306,10 +295,11 @@ public class OfertaDetailActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para mostrar un mensaje
     private void showMessage(){
         AlertDialog alertDialog = new AlertDialog.Builder(OfertaDetailActivity.this).create();
         alertDialog.setTitle("Info");
-        alertDialog.setMessage("Se ha borrado la oferta satisfactoriamente");
+        alertDialog.setMessage(getResources().getString(R.string.offerDelete));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -323,7 +313,7 @@ public class OfertaDetailActivity extends AppCompatActivity {
     private void showMessage2(){
         AlertDialog alertDialog = new AlertDialog.Builder(OfertaDetailActivity.this).create();
         alertDialog.setTitle("Info");
-        alertDialog.setMessage("Se ha dejado la candidatura satisfactoriamente");
+        alertDialog.setMessage(getResources().getString(R.string.applyCnd));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

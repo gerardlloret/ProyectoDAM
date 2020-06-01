@@ -43,14 +43,13 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class HomeFragment extends Fragment {
 
-    //AppCompatTextView fragHomeTest;
     RecyclerView homeFragmentRecyclerView;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    //Metodo pera obtener el token
+    //Metodo para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
@@ -71,6 +70,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    //Metodo para obener las ofertas
    protected void obtenerOfertas(final String token){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta";
@@ -105,14 +105,12 @@ public class HomeFragment extends Fragment {
             }
         };
         queue.add(request);
-        //OfertasAdapter adapter = new OfertasAdapter();
-        //homeFragmentRecyclerView.setAdapter(adapter);
     }
 
 
     class OfertasAdapter extends RecyclerView.Adapter<OfertasAdapter.ViewHolder> {
 
-        // ViewHolder: Conté referències als diferents objectes del layout
+        //ViewHolder: Contiene las referencia al layout
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView itemOfertaTitle;
             ImageView itemOfertaImg;
@@ -137,7 +135,6 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        // Dades disponibles gràcies al constructor
         private List<Oferta> ofertas;
 
         OfertasAdapter(List<Oferta> ofertas) {
@@ -145,7 +142,7 @@ public class HomeFragment extends Fragment {
             this.ofertas = ofertas;
         }
 
-        // Desplegar el layout quan no tenim suficients en pantalla
+        //Desplegar el layout
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -155,23 +152,19 @@ public class HomeFragment extends Fragment {
             return new ViewHolder(view);
         }
 
-        // Associem un element (dades) a un ViewHolder (pantalla)
+        //Mostramos los datos
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Log.d("flx", "onBindViewHolder() : " + position);
             Oferta oferta = ofertas.get(position);
-            //holder.itemOfertaTitle.setText(oferta.getNombre());
-            //holder.tvPuntuation.setText(String.valueOf(user.getTotalScore()));
-            //Picasso.get().load(user.getImage()).into(holder.ivRankingPlayer);
             holder.itemOfertaTitle.setText(oferta.getNombre());
             holder.itemOfertaName.setText(oferta.getDescripcion());
         }
 
-        // Indica quants elements tenim a la llista
+        //Indica cuantos elementos tenemos
         @Override
         public int getItemCount() {
             return ofertas.size();
-            //return 10;
         }
 
     }

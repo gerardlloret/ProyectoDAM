@@ -33,7 +33,7 @@ public class TeamRegisterActivity extends AppCompatActivity {
     EditText ptTeamRegisterPass2;
     Button btnTeamRegisterCreate;
 
-    //Metodo para obtener el token del shared preferences
+    //Metodo para obtener el token del sharedPreferences
     private String obtenerToken() {
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
@@ -64,7 +64,7 @@ public class TeamRegisterActivity extends AppCompatActivity {
     }
 
 
-    //Metodo para el crear un equipo
+    //Metodo para crear un equipo
     protected void crearEquipo(final String name, final String email, final String password) {
         RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/signUpEquipo/";
@@ -89,7 +89,7 @@ public class TeamRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println(error);
-                        ptTeamRegisterEmail.setError("Ya existe un equipo con este email");
+                        ptTeamRegisterEmail.setError(getResources().getString(R.string.vEmailExist));
                     }
                 }
         ) {
@@ -106,32 +106,33 @@ public class TeamRegisterActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-
+    //Metodo para validar los datos antes de enviarlos al backend
     public boolean comprobaciones(){
         boolean valido = true;
         if(!ptTeamRegisterPass.getText().toString().equals(ptTeamRegisterPass2.getText().toString())) {
-            ptTeamRegisterPass2.setError("Las constraseñas deben coincidir");
+            ptTeamRegisterPass2.setError(getResources().getString(R.string.vPassMatch));
             valido = false;
         }
         if(ptTeamRegisterUsername.getText().toString().length()<1||ptTeamRegisterUsername.getText().toString().length()>30){
-            ptTeamRegisterUsername.setError("EL nombre de usuario debe tener de 1 a 30 caracteres");
+            ptTeamRegisterUsername.setError(getResources().getString(R.string.vUsername));
             valido = false;
         }
         if(ptTeamRegisterEmail.getText().toString().length()<1||ptTeamRegisterEmail.getText().toString().length()>30){
-            ptTeamRegisterEmail.setError("EL email debe tener de 1 a 30 caracteres");
+            ptTeamRegisterEmail.setError(getResources().getString(R.string.vEmail));
             valido = false;
         }
         if(ptTeamRegisterPass.getText().toString().length()<1||ptTeamRegisterPass.getText().toString().length()>30){
-            ptTeamRegisterPass.setError("La contraseña debe tener de 1 a 30 caracteres");
+            ptTeamRegisterPass.setError(getResources().getString(R.string.vPass));
             valido = false;
         }
         if(!Manager.emailValido(ptTeamRegisterEmail.getText().toString())){
-            ptTeamRegisterEmail.setError("Este email no tiene un formato valido");
+            ptTeamRegisterEmail.setError(getResources().getString(R.string.vEmailFormat));
             valido = false;
         }
         return valido;
     }
 
+    //Metodo para ir al navigation controller
     private void pushToNavigationController(){
         if (!obtenerToken().equalsIgnoreCase("def")) {
             Intent intent = new Intent(TeamRegisterActivity.this, ControllerActivity.class);

@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.proyecto.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+//Clase para gestionar la navegacion entre los fragments
 public class ControllerActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
@@ -29,6 +30,7 @@ public class ControllerActivity extends AppCompatActivity {
     private CreateOfertaFragment createOfertaFragment;
     boolean jugador = false;
 
+    //Metodo para obtener el tipo del shared preferences
     private String obtenerTipo() {
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String tipo = preferences.getString("tipo", "def");
@@ -67,9 +69,6 @@ public class ControllerActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
 
-        /*if (savedInstanceState == null) {
-            bottomNavigationView.setSelectedItemId(R.id.navigation_home); // change to whichever id should be default
-        }*/
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

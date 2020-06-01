@@ -55,12 +55,13 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
         // Required empty public constructor
     }
 
-    //Metodo pera obtener el token
+    //Metodo para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
         return tok;
     }
+    //Metodo para obtener el email
     private String obtenerEmail(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String email = preferences.getString("email", "def");
@@ -92,6 +93,7 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
         return view;
     }
 
+    //Metodo para rellenar el spinner con los juegos
     protected void spinnerFunction(View view) {
         spFCOgames = view.findViewById(R.id.spFCOgames);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -101,6 +103,7 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
         spFCOgames.setOnItemSelectedListener(this);
     }
 
+    //Metodo para obtener todos los juegos del backend
     protected void obtenerJuegos(final String token, final View view){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/juego/";
@@ -139,7 +142,7 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
         queue.add(request);
     }
 
-
+    //Metodo para crear una oferta
     protected void crearOferta(final String token){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta/";
@@ -183,10 +186,11 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
         queue.add(request);
     }
 
+    //Metodo para mostrar un mensaje
     private void showMessage(){
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle("Info");
-        alertDialog.setMessage("Se ha creado la oferta satisfactoriamente");
+        alertDialog.setMessage(getResources().getString(R.string.offerCreate));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -197,33 +201,32 @@ public class CreateOfertaFragment extends Fragment implements AdapterView.OnItem
     }
 
 
-    //Metodos del spinner
+    //Metodos para saber el item seleccionado del spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String gameSelect = spJuegos.get(position);
         idJuegoSeleccionado = hmJuegos.get(gameSelect);
         ((TextView)parent.getChildAt(0)).setTextColor(Color.WHITE);
-
-        System.out.println(idJuegoSeleccionado + "LOLAAAAAAAAAAAJFCFVDFG");
     }
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
+    //Metodo para validar los datos antes de enviarlos al backend
     public boolean comprobaciones(){
         boolean valido = true;
         if(etFCOname.getText().toString().length()<1||etFCOname.getText().toString().length()>20){
-            etFCOname.setError("EL nombre de la oferta debe tener de 1 a 20 caracteres");
+            etFCOname.setError(getResources().getString(R.string.vnameOffer));
             valido = false;
         }
         if(etFCOdescription.getText().toString().length()<1||etFCOdescription.getText().toString().length()>200){
-            etFCOdescription.setError("La descripcion debe tener de 1 a 200 caracteres");
+            etFCOdescription.setError(getResources().getString(R.string.vDescriptionOffer));
             valido = false;
         }
         int num = Integer.parseInt(etFCOvacancies.getText().toString());
         if(num < 1 || num > 99){
-            etFCOvacancies.setError("Las vacancias tienen que ser de 1 a 99");
+            etFCOvacancies.setError(getResources().getString(R.string.vVacancies));
             valido = false;
         }
         return valido;

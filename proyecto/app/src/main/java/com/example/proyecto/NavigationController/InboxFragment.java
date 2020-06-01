@@ -48,14 +48,14 @@ public class InboxFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //Metodo pera obtener el token
+    //Metodo para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
         System.out.printf(tok);
         return tok;
     }
-
+    //Metodo para obtener el email
     private String obtenerEmail(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String email = preferences.getString("email", "def");
@@ -78,6 +78,7 @@ public class InboxFragment extends Fragment {
         return view;
     }
 
+    //Metodo para obtener todas las ofertas de un jugador
     protected void obtenerOfertasJugador(final String email, final String token){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/oferta";
@@ -129,7 +130,7 @@ public class InboxFragment extends Fragment {
 
     class OfertasJugadorAdapter extends RecyclerView.Adapter<OfertasJugadorAdapter.ViewHolder> {
 
-        // ViewHolder: Conté referències als diferents objectes del layout
+        //ViewHolder: Contiene las referencia al layout
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView itemOfertaTitle;
             ImageView itemOfertaImg;
@@ -153,7 +154,6 @@ public class InboxFragment extends Fragment {
             }
         }
 
-        // Dades disponibles gràcies al constructor
         private List<Oferta> ofertas;
 
         OfertasJugadorAdapter(List<Oferta> ofertas) {
@@ -161,7 +161,7 @@ public class InboxFragment extends Fragment {
             this.ofertas = ofertas;
         }
 
-        // Desplegar el layout quan no tenim suficients en pantalla
+        //Desplegar el layout
         @NonNull
         @Override
         public InboxFragment.OfertasJugadorAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -171,7 +171,7 @@ public class InboxFragment extends Fragment {
             return new InboxFragment.OfertasJugadorAdapter.ViewHolder(view);
         }
 
-        // Associem un element (dades) a un ViewHolder (pantalla)
+        //Mostramos los datos
         @Override
         public void onBindViewHolder(@NonNull InboxFragment.OfertasJugadorAdapter.ViewHolder holder, int position) {
             Log.d("flx", "onBindViewHolder() : " + position);
@@ -180,7 +180,7 @@ public class InboxFragment extends Fragment {
             holder.itemOfertaName.setText(oferta.getDescripcion());
         }
 
-        // Indica quants elements tenim a la llista
+        //Indica cuantos elementos tenemos
         @Override
         public int getItemCount() {
             return ofertas.size();

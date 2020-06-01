@@ -44,20 +44,20 @@ public class ProfileFragmentTeam extends Fragment {
         // Required empty public constructor
     }
 
-    //Metode per obtenir el token
+    //Metode para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
         return tok;
     }
-
+    //Metode para obtener el email
     private String obtenerEmail(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String email = preferences.getString("email", "def");
         System.out.printf(email);
         return email;
     }
-
+    //Metodo para LogOut, borramos el token del sharedPrederences
     private void logOut(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -92,7 +92,7 @@ public class ProfileFragmentTeam extends Fragment {
             }
         });
 
-        //Log Out
+        //Boton LogOut
         Button btnFPTlogOut = view.findViewById(R.id.btnFPTlogOut);
         btnFPTlogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +105,7 @@ public class ProfileFragmentTeam extends Fragment {
     }
 
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para obtener un equipo a partir de su email
     protected void obtenerPerfilByEmail(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+email;
@@ -124,13 +124,10 @@ public class ProfileFragmentTeam extends Fragment {
                         tvFPTvacantes.setText(String.valueOf(equipo.getVacantes()));
                         tvFPTmiembros.setText(String.valueOf(equipo.getNumero_miembros()));
                         if (null == equipo.getDescripcion() || equipo.getDescripcion().equalsIgnoreCase("")){
-                            tvFPTdescripcion.setText("Este equipo no tiene una descripción");
+                            tvFPTdescripcion.setText(getResources().getString(R.string.notDesc));
                         } else {
                             tvFPTdescripcion.setText(equipo.getDescripcion());
                         }
-                        //user = detail.getData();
-                        //tvPlayerActivity.setText(user.getName());
-                        //Picasso.get().load(user.getImage()).into(ivPlayerDetail);
                     }
                 },
                 new Response.ErrorListener() {

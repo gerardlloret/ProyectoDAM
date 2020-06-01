@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etEmail;
     EditText etPass;
 
-    //Metodo para obtener el token del shared preferences
+    //Metodo para obtener el token del sharedPreferences
     private String obtenerToken() {
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
                         Token token = gson.fromJson(response, Token.class);
                         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
-                        //SharedPreferences.Editor editor2 = preferences.edit();
                         editor.putString("token", token.getToken());
                         editor.putString("email", email);
                         editor.putString("tipo", "equipo");
@@ -165,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    //Metodo para ir al navigation controller
     private void pushToNavigationController(){
         if (!obtenerToken().equalsIgnoreCase("def")) {
             Intent intent = new Intent(MainActivity.this, ControllerActivity.class);

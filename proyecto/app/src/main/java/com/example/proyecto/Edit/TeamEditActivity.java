@@ -44,6 +44,7 @@ public class TeamEditActivity extends AppCompatActivity {
         return tok;
     }
 
+    //Metodo para obtener el email del shared preferences
     private String obtenerEmail(){
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String email = preferences.getString("email", "def");
@@ -74,7 +75,7 @@ public class TeamEditActivity extends AppCompatActivity {
         });
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para obtener un equipo a partir de su id
     protected void obtenerPerfilByEmail(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+email;
@@ -111,7 +112,7 @@ public class TeamEditActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para rellenar los datos de la pantalla
     protected void obtenerPerfilByEmailRellenarDatos(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+email;
@@ -147,7 +148,7 @@ public class TeamEditActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-
+    //Metodo para actualizar la informacion del equipo
     protected void updateEquipo(final String email, final Equipo equipo, final String token){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+email;
@@ -191,24 +192,25 @@ public class TeamEditActivity extends AppCompatActivity {
 
     }
 
-
+    //Validacion de datos antes de enviarlos al backend
     public boolean comprobaciones(){
         boolean valido = true;
         if(etATEname.getText().toString().length()<1||etATEname.getText().toString().length()>30){
-            etATEname.setError("EL nombre de usuario debe tener de 1 a 30 caracteres");
+            etATEname.setError(getResources().getString(R.string.vUsername));
             valido = false;
         }
         if(etATEdescription.getText().toString().length()>100){
-            etATEdescription.setError("La descripcion no debe tener mas de 100");
+            etATEdescription.setError(getResources().getString(R.string.vDescription));
             valido = false;
         }
         if(etATEpass.getText().toString().length()<1||etATEpass.getText().toString().length()>30){
-            etATEpass.setError("La contraseña debe tener de 1 a 30 caracteres");
+            etATEpass.setError(getResources().getString(R.string.vUsername));
             valido = false;
         }
         return valido;
     }
 
+    //Metodo para volver al Navigation controller
     private void pushToNavigationController(){
         if (!obtenerToken().equalsIgnoreCase("def")) {
             Intent intent = new Intent(TeamEditActivity.this, ControllerActivity.class);
@@ -216,10 +218,11 @@ public class TeamEditActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para mostrar un mensaje
     private void showMessage(){
         AlertDialog alertDialog = new AlertDialog.Builder(TeamEditActivity.this).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Se ha actualizado tu informacion");
+        alertDialog.setTitle("Info");
+        alertDialog.setMessage(getResources().getString(R.string.editProfileApply));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

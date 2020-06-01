@@ -30,7 +30,7 @@ public class JugadorDetailActivity extends AppCompatActivity {
     TextView jugadorDetailAlias;
     TextView jugadorDetailEmail;
 
-    //Metode per obtenir el token
+    //Metodo para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
@@ -49,7 +49,7 @@ public class JugadorDetailActivity extends AppCompatActivity {
         obtenerJugadorById(obtenerToken(),email);
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para obtener un jugador a partir de su id
     protected void obtenerJugadorById(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;

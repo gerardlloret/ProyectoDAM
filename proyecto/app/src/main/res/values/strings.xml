@@ -30,4 +30,52 @@
     <string name="confirmPassword">Confirm Password</string>
     <string name="btnCreate">Create</string>
 
+    <!-- HINTS -->
+    <string name="hintName">Name</string>
+    <string name="hintAlias">Alias</string>
+    <string name="hintEmail">Email</string>
+    <string name="hintDescription">Description</string>
+    <string name="hintVacancies">Vacancies</string>
+
+    <!-- BUTTONS -->
+    <string name="btnDelete">Delete</string>
+    <string name="btnCandidacy">Candidacy</string>
+    <string name="candidacy">Candidacy</string>
+    <string name="btnPassword">Password</string>
+    <string name="btnDone">Done!</string>
+    <string name="Create">Create</string>
+    <string name="btnEditProfile">Edit Profile</string>
+
+    <!-- TITLES -->
+    <string name="editProfile">EDIT YOUR PROFILE</string>
+    <string name="createOffer">CREATE OFFER</string>
+
+    <!-- PROFILE -->
+    <string name="twoPointsDesc">Description:</string>
+
+    <!-- INFO -->
+    <string name="offerDelete">The offer has been remove</string>
+    <string name="applyCnd">Your candidacy has been saved</string>
+    <string name="applyCndExist">You have already left a candidacy in this offer</string>
+    <string name="editProfileApply">Your information has been updated</string>
+    <string name="offerCreate">The offer has been created</string>
+    <string name="notDesc">This team dont have any description</string>
+
+    <!-- VALIDATION -->
+    <string name="vUsername">Name must have between 1 to 30 characters</string>
+    <string name="vnameOffer">Name must have between 1 to 20 characters</string>
+    <string name="vAlias">Alias must have between 1 to 30 characters</string>
+    <string name="vPass">Password must have between 1 to 30 characters</string>
+    <string name="vPassMatch">Passwords must match</string>
+    <string name="vEmail">Email must have between 1 to 30 characters</string>
+    <string name="vEmailFormat">This email dont have a valid format</string>
+    <string name="vEmailExist">There is already a user with that email</string>
+    <string name="vDescription">Description can not have more than 100 characters</string>
+    <string name="vDescriptionOffer">Description can not have more than 200 characters</string>
+    <string name="vEmailPlayerExist">There is already a player with that email</string>
+    <string name="vVacancies">Vacancies must have between 1 to 99</string>
+
+
+
+
 </resources>

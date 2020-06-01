@@ -50,20 +50,20 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //Metode per obtenir el token
+    //Metode para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
         return tok;
     }
-
+    //Metode para obtener el email
     private String obtenerEmail(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String email = preferences.getString("email", "def");
         System.out.printf(email);
         return email;
     }
-
+    //Metodo para LogOut, borramos el token del sharedPrederences
     private void logOut(){
         SharedPreferences preferences = getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -97,7 +97,7 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        //Log Out
+        //Boton LogOut
         Button btnFHPlogOut = view.findViewById(R.id.btnFHPlogOut);
         btnFHPlogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +110,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para obtener un jugador a partir de su email
     protected void obtenerPerfilByEmail(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
@@ -129,7 +129,6 @@ public class ProfileFragment extends Fragment {
                         userProfileEmail.setText(jugador.getEmail());
                         if(jugador.getImagen() != null){
                             userProfileImage.setImageBitmap(Manager.StringToBitMap(jugador.getImagen()));
-                            //Picasso.get().load(jugador.getImagen()).into(userProfileImage);
                         }
                     }
                 },

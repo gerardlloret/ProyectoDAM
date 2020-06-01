@@ -68,24 +68,23 @@ public class RecoverActivity extends AppCompatActivity {
         btnRecoverSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //sendEmail(etRecoverActivityEmail.getText().toString(), Manager.generateRandomPassword());
                 jugadorExists(etRecoverActivityEmail.getText().toString());
             }
         });
 
     }
 
+    //Metodo para mandar el email con el nuevo password
     protected void sendEmail(String mail, String pass) {
-        //String mail = "gerardlloreteij@gmail.com";
-        String subject = "Regeneracion de password";
-        String message = "Tu nuevo password es: " + pass;
+        String subject = "Password recovery";
+        String message = "Your new password is: " + pass;
         JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
         javaMailAPI.execute();
         Intent intent = new Intent(RecoverActivity.this, RecoverSendActivity.class);
         startActivity(intent);
     }
 
-    //Metodo para el login, si las credenciales son correctas setea un token en el SharedPreferences
+    //Metodo para comprobar si existe un jugador con ese email
     protected void jugadorExists(final String email) {
         RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugadorExists/";
@@ -123,7 +122,7 @@ public class RecoverActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    //Metodo para el login, si las credenciales son correctas setea un token en el SharedPreferences
+    //Metodo para comprobar si existe un equipo con ese email
     protected void equipoExists(final String email) {
         RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipoExists/";
@@ -161,7 +160,7 @@ public class RecoverActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para obtener un jugador a partir de su email
     protected void obtenerJugador(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
@@ -196,6 +195,7 @@ public class RecoverActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    //Metodo para actualizar el jugador con el nuevo password
     protected void updateJugador(final String email, final Jugador jugador, final String token){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
@@ -240,7 +240,7 @@ public class RecoverActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para obtener el equipo por su email
     protected void obtenerEquipo(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+email;
@@ -276,6 +276,7 @@ public class RecoverActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    //Metodo para actualizar el equipo con el nuevo password
     protected void updateEquipo(final String email, final Equipo equipo, final String token){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/equipo/"+email;

@@ -60,6 +60,7 @@ public class PlayerEditActivity extends AppCompatActivity {
         return tok;
     }
 
+    //Metodo para obtener el email del shared preferences
     private String obtenerEmail(){
         SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String email = preferences.getString("email", "def");
@@ -82,14 +83,13 @@ public class PlayerEditActivity extends AppCompatActivity {
 
         obtenerPerfilByEmailRellenarDatos(obtenerToken(), obtenerEmail());
 
-        //Al clicar el botor de fer foto cridarem al metetode dispatchTakePictureIntent
+        //Botones para hacer las fotos o abrir la galeria
         btnAPEtakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
             }
         });
-        //Al clicar el botor de galeria cridarem al metetode openGalery
         btnAPEgalery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +109,7 @@ public class PlayerEditActivity extends AppCompatActivity {
         });
     }
 
-    //Aquest metode ens enviara a la camara per poder fer una foto
+    //Metodo para hacer la foto
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null){
@@ -117,13 +117,13 @@ public class PlayerEditActivity extends AppCompatActivity {
         }
     }
 
-    //Aquest metode ens enviara a la galeria per poder seleccionar una foto
+    //Metodo para abrir la galeria
     private void openGalery(){
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, imgGalery);
     }
 
-    //Sobreescribim onActivityResult per poder colocar al imageView la foto realitzada per l'usuari o la seleccionada a la galeria
+    //Sobreescribimos onActivityResult para colocar la foto
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -138,7 +138,7 @@ public class PlayerEditActivity extends AppCompatActivity {
         }
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para obtener un jugador a partir de su email
     protected void obtenerPerfilByEmail(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
@@ -179,7 +179,7 @@ public class PlayerEditActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-
+    //Metodo para actualizar un jugador
     protected void updateJugador(final String email, final Jugador jugador, final String token){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
@@ -225,7 +225,7 @@ public class PlayerEditActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    //Metode per obtenir un jugador a partir del seu email
+    //Metodo para rellenar los datos de la pantalla al entrar
     protected void obtenerPerfilByEmailRellenarDatos(final String token, final String email){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador/"+email;
@@ -264,25 +264,25 @@ public class PlayerEditActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-
-
+    //Validacion de datos antes de enviarlos al backend
     public boolean comprobaciones(){
         boolean valido = true;
         if(etAPEname.getText().toString().length()<1||etAPEname.getText().toString().length()>30){
-            etAPEname.setError("EL nombre de usuario debe tener de 1 a 30 caracteres");
+            etAPEname.setError(getResources().getString(R.string.vUsername));
             valido = false;
         }
         if(etAPEalias.getText().toString().length()<1||etAPEalias.getText().toString().length()>30){
-            etAPEalias.setError("EL alias debe tener de 1 a 30 caracteres");
+            etAPEalias.setError(getResources().getString(R.string.vAlias));
             valido = false;
         }
         if(etAPEcontact.getText().toString().length()<1||etAPEcontact.getText().toString().length()>30){
-            etAPEcontact.setError("La contraseña debe tener de 1 a 30 caracteres");
+            etAPEcontact.setError(getResources().getString(R.string.vPass));
             valido = false;
         }
         return valido;
     }
 
+    //Metodo para volver al Navigation controller
     private void pushToNavigationController(){
         if (!obtenerToken().equalsIgnoreCase("def")) {
             Intent intent = new Intent(PlayerEditActivity.this, ControllerActivity.class);
@@ -290,10 +290,11 @@ public class PlayerEditActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para mostrar un mensaje
     private void showMessage(){
         AlertDialog alertDialog = new AlertDialog.Builder(PlayerEditActivity.this).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Se ha actualizado tu informacion");
+        alertDialog.setTitle("Info");
+        alertDialog.setMessage(getResources().getString(R.string.editProfileApply));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

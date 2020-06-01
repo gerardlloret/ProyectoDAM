@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 public class Manager {
 
+    //Metodo para comprobar si el email tiene un formato valido
     public static boolean emailValido(String email){
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         Matcher mather = pattern.matcher(email);
@@ -35,7 +36,7 @@ public class Manager {
         return false;
     }
 
-    //Aquest metode serveix per convertir Bitmap a String
+    //Metodo para pasar un Bitmap a String
     public static String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
@@ -43,7 +44,8 @@ public class Manager {
         String temp= Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
-    //Aquest metode serveix per convertir String a Bitmap
+
+    //Metodo para convertir un String a Bitmap
     public static Bitmap StringToBitMap(String encodedString){
         try {
             byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
@@ -62,6 +64,7 @@ public class Manager {
         return sqlDate;
     }
 
+    //Metodo para generar un password de 10 caracteres aleatorio
     public static String generateRandomPassword() {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"

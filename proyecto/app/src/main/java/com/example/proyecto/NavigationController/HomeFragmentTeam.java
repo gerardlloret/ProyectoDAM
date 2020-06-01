@@ -45,7 +45,7 @@ public class HomeFragmentTeam extends Fragment {
         // Required empty public constructor
     }
 
-    //Metodo pera obtener el token
+    //Metodo para obtener el token
     private String obtenerToken(){
         SharedPreferences preferences = this.getActivity().getSharedPreferences(getActivity().getPackageName(), MODE_PRIVATE);
         String tok = preferences.getString("token", "def");
@@ -65,6 +65,7 @@ public class HomeFragmentTeam extends Fragment {
         return view;
     }
 
+    //Metodo para obtener los jugadores
     protected void obtenerJugadores(final String token){
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://192.168.1.66:8000/FreeAgentAPI/v1/jugador";
@@ -103,7 +104,7 @@ public class HomeFragmentTeam extends Fragment {
 
     class JugadoresAdapter extends RecyclerView.Adapter<JugadoresAdapter.ViewHolder> {
 
-        // ViewHolder: Conté referències als diferents objectes del layout
+        //ViewHolder: Contiene las referencia al layout
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView itemPlayerAlias;
             ImageView itemPlayerImg;
@@ -127,7 +128,6 @@ public class HomeFragmentTeam extends Fragment {
             }
         }
 
-        // Dades disponibles gràcies al constructor
         private List<Jugador> jugadores;
 
         JugadoresAdapter(List<Jugador> jugadores) {
@@ -135,7 +135,7 @@ public class HomeFragmentTeam extends Fragment {
             this.jugadores = jugadores;
         }
 
-        // Desplegar el layout quan no tenim suficients en pantalla
+        //Desplegar el layout
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -145,12 +145,11 @@ public class HomeFragmentTeam extends Fragment {
             return new ViewHolder(view);
         }
 
-        // Associem un element (dades) a un ViewHolder (pantalla)
+        //Mostramos los datos
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Log.d("flx", "onBindViewHolder() : " + position);
             Jugador jugador = jugadores.get(position);
-            //Picasso.get().load(user.getImage()).into(holder.ivRankingPlayer);
             holder.itemPlayerAlias.setText(jugador.getAlias());
             holder.itemPlayerEmail.setText(jugador.getEmail());
             if(jugador.getImagen() != null){
@@ -158,7 +157,7 @@ public class HomeFragmentTeam extends Fragment {
             }
         }
 
-        // Indica quants elements tenim a la llista
+        //Indica cuantos elementos tenemos
         @Override
         public int getItemCount() {
             return jugadores.size();
